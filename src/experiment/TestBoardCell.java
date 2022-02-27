@@ -1,10 +1,15 @@
 package experiment;
 
+import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Kai Page
+ * @author Kelsi Wood
+ */
 public class TestBoardCell {
 	private int row, column;
-	private Set<TestBoardCell> adjList;
+	private Set<TestBoardCell> adjList = new HashSet<>();
 	private boolean isRoom, isOccupied;
 
 	public TestBoardCell(int row, int column) {

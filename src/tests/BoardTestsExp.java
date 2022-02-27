@@ -8,6 +8,10 @@ import org.junit.jupiter.api.*;
 
 import experiment.*;
 
+/**
+ * @author Kai Page
+ * @author Kelsi Wood
+ */
 public class BoardTestsExp {
 	private TestBoard board;
 

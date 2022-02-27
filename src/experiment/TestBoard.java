@@ -3,6 +3,10 @@ package experiment;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Kai Page
+ * @author Kelsi Wood
+ */
 public class TestBoard {
 	public TestBoard() {
 		
