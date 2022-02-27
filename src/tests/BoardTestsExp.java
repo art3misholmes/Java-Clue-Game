@@ -54,12 +54,28 @@ public class BoardTestsExp {
 
 	@Test
 	public void testTargetingEmpty() {
-
+		var cell = board.getCell(0, 0);
+		board.calcTargets(cell,3);
+		var target = board.getTargets();
+		assertEquals(6, target.size());
+		assertTrue(target.contains(board.getCell(3, 0)));
+		assertTrue(target.contains(board.getCell(2, 1)));
+		assertTrue(target.contains(board.getCell(0, 1)));
+		assertTrue(target.contains(board.getCell(1, 2)));
+		assertTrue(target.contains(board.getCell(0, 3)));
+		assertTrue(target.contains(board.getCell(1, 0)));
 	}
 
 	@Test
 	public void testTargetingOccupied() {
-
+		board.getCell(1,1).setOccupied(true);
+		var cell = board.getCell(1, 0);
+		board.calcTargets(cell,2);
+		var target = board.getTargets();
+		assertEquals(3, target.size());
+		assertTrue(target.contains(board.getCell(0, 1)));
+		assertTrue(target.contains(board.getCell(2, 1)));
+		assertTrue(target.contains(board.getCell(3, 0)));
 	}
 
 	@Test
