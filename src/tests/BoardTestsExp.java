@@ -65,17 +65,36 @@ public class BoardTestsExp {
 
 	@Test
 	public void testTargetingRoom() {
-
+		board.getCell(1, 1).setRoom(true);
+		var cell = board.getCell(1, 0);
+		board.calcTargets(cell, 2);
+		var target = board.getTargets();
+		assertSetContents(target, board.getCell(0, 1), board.getCell(2, 1), board.getCell(3, 0));
 	}
 
 	@Test
-	public void testTargetUnused() {
-
+	public void testTargetIreleventConstraints() {
+		var cell = board.getCell(0, 0);
+		// y,x
+		board.getCell(3, 3).setOccupied(true);
+		
+		board.calcTargets(cell, 1);
+		var target = board.getTargets();
+		assertSetContents(target, board.getCell(0, 1), board.getCell(1, 0));
 	}
 
 	@Test
 	public void testTargetingCannotMove() {
-
+		var cell = board.getCell(1, 1);
+		// y,x
+		board.getCell(0, 1).setOccupied(true);
+		board.getCell(1, 0).setOccupied(true);
+		board.getCell(1, 2).setOccupied(true);
+		board.getCell(2, 1).setOccupied(true);
+		
+		board.calcTargets(cell, 6);
+		var target = board.getTargets();
+		assertSetContents(target);
 	}
 
 	private static <T> void assertSetContents(Set<T> set, T... items) {
