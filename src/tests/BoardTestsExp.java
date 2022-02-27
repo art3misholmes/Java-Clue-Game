@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.Set;
+
 import org.junit.jupiter.api.*;
 
 import experiment.*;
@@ -18,64 +20,47 @@ public class BoardTestsExp {
 	public void testAdjacencyTopLeft() {
 		var cell = board.getCell(0, 0);
 		var cellAdj = cell.getAdjList();
-		assertTrue(cellAdj.contains(board.getCell(1, 0)));
-		assertTrue(cellAdj.contains(board.getCell(0, 1)));
-		assertEquals(2, cellAdj.size());
+		assertSetContents(cellAdj, board.getCell(1, 0), board.getCell(0, 1));
+
 	}
 
 	@Test
 	public void testAdjacencyBottomRight() {
 		var cell = board.getCell(3, 3);
 		var cellAdj = cell.getAdjList();
-		assertTrue(cellAdj.contains(board.getCell(2, 3)));
-		assertTrue(cellAdj.contains(board.getCell(3, 2)));
-		assertEquals(2, cellAdj.size());
+		assertSetContents(cellAdj, board.getCell(2, 3), board.getCell(3, 2));
 	}
 
 	@Test
 	public void testAdjacencyRightEdge() {
 		var cell = board.getCell(1, 3);
 		var cellAdj = cell.getAdjList();
-		assertTrue(cellAdj.contains(board.getCell(0, 3)));
-		assertTrue(cellAdj.contains(board.getCell(2, 3)));
-		assertTrue(cellAdj.contains(board.getCell(1, 2)));
-		assertEquals(3, cellAdj.size());
+		assertSetContents(cellAdj, board.getCell(0, 3), board.getCell(2, 3), board.getCell(1, 2));
 	}
 
 	@Test
 	public void testAdjacencyLeftEdge() {
 		var cell = board.getCell(1, 0);
 		var cellAdj = cell.getAdjList();
-		assertTrue(cellAdj.contains(board.getCell(0, 0)));
-		assertTrue(cellAdj.contains(board.getCell(2, 0)));
-		assertTrue(cellAdj.contains(board.getCell(1, 1)));
-		assertEquals(3, cellAdj.size());
+		assertSetContents(cellAdj, board.getCell(0, 0), board.getCell(2, 0), board.getCell(1, 1));
 	}
 
 	@Test
 	public void testTargetingEmpty() {
 		var cell = board.getCell(0, 0);
-		board.calcTargets(cell,3);
+		board.calcTargets(cell, 3);
 		var target = board.getTargets();
-		assertEquals(6, target.size());
-		assertTrue(target.contains(board.getCell(3, 0)));
-		assertTrue(target.contains(board.getCell(2, 1)));
-		assertTrue(target.contains(board.getCell(0, 1)));
-		assertTrue(target.contains(board.getCell(1, 2)));
-		assertTrue(target.contains(board.getCell(0, 3)));
-		assertTrue(target.contains(board.getCell(1, 0)));
+		assertSetContents(target, board.getCell(3, 0), board.getCell(2, 1), board.getCell(0, 1), board.getCell(1, 2),
+				board.getCell(0, 3), board.getCell(1, 0));
 	}
 
 	@Test
 	public void testTargetingOccupied() {
-		board.getCell(1,1).setOccupied(true);
+		board.getCell(1, 1).setOccupied(true);
 		var cell = board.getCell(1, 0);
-		board.calcTargets(cell,2);
+		board.calcTargets(cell, 2);
 		var target = board.getTargets();
-		assertEquals(3, target.size());
-		assertTrue(target.contains(board.getCell(0, 1)));
-		assertTrue(target.contains(board.getCell(2, 1)));
-		assertTrue(target.contains(board.getCell(3, 0)));
+		assertSetContents(target, board.getCell(0, 1), board.getCell(2, 1), board.getCell(3, 0));
 	}
 
 	@Test
@@ -91,5 +76,12 @@ public class BoardTestsExp {
 	@Test
 	public void testTargetingCannotMove() {
 
+	}
+
+	private static <T> void assertSetContents(Set<T> set, T... items) {
+		assertEquals(items.length, set.size());
+		for (var item : items) {
+			assertTrue(set.contains(item));
+		}
 	}
 }
