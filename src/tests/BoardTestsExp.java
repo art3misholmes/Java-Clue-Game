@@ -25,7 +25,6 @@ public class BoardTestsExp {
 		var cell = board.getCell(0, 0);
 		var cellAdj = cell.getAdjList();
 		assertSetContents(cellAdj, board.getCell(1, 0), board.getCell(0, 1));
-
 	}
 
 	@Test

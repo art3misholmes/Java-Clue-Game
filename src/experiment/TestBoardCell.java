@@ -38,7 +38,7 @@ public class TestBoardCell {
 	}
 
 	public void addAdjacency(TestBoardCell cell) {
-
+		adjList.add(cell);
 	}
 
 }
