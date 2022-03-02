@@ -1,0 +1,14 @@
+// Rooms and room cards
+Room, Kitchen Arena, K
+Room,Green Room, G
+Room, Apartment, A
+Room, Studio, S
+Room, Warehouse, H
+Room, Test Kitchen, T
+Room, Rec Room, R
+Room,VIP Lounge, V
+Room, Battle Zone, Z
+
+// other spaces on board
+Space, Unused, X
+Space, Walkway, W

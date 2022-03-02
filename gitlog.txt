@@ -1,0 +1,47 @@
+commit 96b87ccda5b5b21c8a17b07a9420ab7d5f41557e
+Author: Kai Page <kpage1@mines.edu>
+Date:   Tue Mar 1 17:58:40 2022 -0700
+
+    Fixed tests in BoardTestsExp
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit e923cad284f30d46f1a4c0acfd48d2f528c77ab5
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Feb 27 16:18:06 2022 -0700
+
+    Fixed NullPointerExceptions in adjacency tests
+
+commit 6726e3162069b6efbdc0db447e8fb6521924ecf1
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Feb 27 16:14:00 2022 -0700
+
+    addded 3 more target tests
+
+commit 7685157e093311721435d09e4f751e08e248a7a8
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Feb 27 15:59:18 2022 -0700
+
+    Refactored set contents assertions
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit e9aa0d49898b6b81e4a4c0c90655ca19f5058445
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Feb 27 15:50:50 2022 -0700
+
+    made 2 target tests
+
+commit 0d0899a179b77cbdb94f9138bbfd1891c8a39e42
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Feb 27 15:25:21 2022 -0700
+
+    Stubbed out tests and wrote adjacency tests
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit e7cd77f1647ddca6d0691c7f47f9262fa5b1b1a0
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Feb 27 15:04:19 2022 -0700
+
+    Init commit
