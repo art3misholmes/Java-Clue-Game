@@ -7,7 +7,7 @@ public class Board {
 	private BoardCell[][] grid;
 	private Set<BoardCell> targets;
 
-	private static final int COLS = 4, ROWS = 4;
+	private static final int COLS = 400, ROWS = 400;
 	private static Board instance = new Board();
 	
 	private Board() {}
@@ -70,14 +70,14 @@ public class Board {
 		return instance;
 	}
 
-	public void setConfigFiles(String string, String string2) {
+	public void setConfigFiles(String layout, String setup) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	public Room getRoom(char c) {
 		// TODO Auto-generated method stub
-		return null;
+		return new Room();
 	}
 
 	public int getNumRows() {
