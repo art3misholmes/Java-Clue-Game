@@ -1,39 +1,31 @@
 package clueGame;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Board {
 	private BoardCell[][] grid;
 	private Set<BoardCell> targets;
+	private String layoutFile, setupFile;
+	private Map<Character, Room> rooms;
+	private int rows, cols;
 
-	private static final int COLS = 400, ROWS = 400;
 	private static Board instance = new Board();
-	
-	private Board() {}
-	
+
+	private Board() {
+	}
+
 	public void initialize() {
-		grid = new BoardCell[ROWS][COLS];
-		for (var i = 0; i < ROWS; i++) {
-			for (var j = 0; j < COLS; j++) {
-				grid[i][j] = new BoardCell(i, j);
-			}
-		}
-		for (var i = 0; i < ROWS; i++) {
-			for (var j = 0; j < COLS; j++) {
-				if (i > 0) {
-					grid[i][j].addAdjacency(grid[i - 1][j]);
-				}
-				if (i < ROWS - 1) {
-					grid[i][j].addAdjacency(grid[i + 1][j]);
-				}
-				if (j > 0) {
-					grid[i][j].addAdjacency(grid[i][j - 1]);
-				}
-				if (j < COLS - 1) {
-					grid[i][j].addAdjacency(grid[i][j + 1]);
-				}
-			}
+		try {
+			loadSetupConfig();
+			loadLayoutConfig();
+		} catch (BadConfigFormatException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -65,46 +57,91 @@ public class Board {
 	public BoardCell getCell(int row, int col) {
 		return grid[row][col];
 	}
-	
+
 	public static Board getInstance() {
 		return instance;
 	}
 
 	public void setConfigFiles(String layout, String setup) {
-		// TODO Auto-generated method stub
-		
+		layoutFile = layout;
+		setupFile = setup;
 	}
 
 	public Room getRoom(char c) {
-		// TODO Auto-generated method stub
-		return new Room();
+		return rooms.get(c);
 	}
 
 	public int getNumRows() {
-		// TODO Auto-generated method stub
-		return 0;
+		return rows;
 	}
 
 	public int getNumColumns() {
-		// TODO Auto-generated method stub
-		return 0;
+		return cols;
 	}
 
 	public Room getRoom(BoardCell cell) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public void loadSetupConfig() throws BadConfigFormatException {
-		// TODO Auto-generated method stub
-		
+		rooms = new HashMap<>();
+		var lineNumber = 0;
+		try (var scanner = new Scanner(new FileInputStream(setupFile))) {
+			while (scanner.hasNextLine()) {
+				var line = scanner.nextLine();
+				lineNumber++;
+				if (line.startsWith("//") || line.isBlank()) {
+					continue;
+				}
+				var split = line.split(", ");
+				
+				// check for exceptional input
+				if (split.length != 3) {
+					throw new BadConfigFormatException(String.format("line %d of %s should have 3 entries", lineNumber, setupFile));
+				}
+				if (!split[0].equals("Room") && !split[0].equals("Space")) {
+					// the program doesn't actually appear to use this value anywhere
+					// but it does need to be either "Room" or "Space"
+					throw new BadConfigFormatException(String.format("line %d of %s has bad room type %s", lineNumber, setupFile, split[0]));
+				}
+				if (split[2].length() != 1) {
+					throw new BadConfigFormatException(String.format("line %d of %s has bad room character %s", lineNumber, setupFile, split[2]));
+				}
+				if (rooms.containsKey(split[2].charAt(0))) {
+					throw new BadConfigFormatException(String.format("line %d of %s contains duplicate room character %s", lineNumber, setupFile, split[2]));
+				}
+				
+				var room = new Room(split[1]);
+				rooms.put(split[2].charAt(0), room);
+			}
+		} catch (FileNotFoundException e) {
+			throw new BadConfigFormatException(e.toString());
+		}
 	}
 
 	public void loadLayoutConfig() throws BadConfigFormatException {
-		// TODO Auto-generated method stub
-		
+//		grid = new BoardCell[ROWS][COLS];
+//		for (var i = 0; i < ROWS; i++) {
+//			for (var j = 0; j < COLS; j++) {
+//				grid[i][j] = new BoardCell(i, j);
+//			}
+//		}
+//		for (var i = 0; i < ROWS; i++) {
+//			for (var j = 0; j < COLS; j++) {
+//				if (i > 0) {
+//					grid[i][j].addAdjacency(grid[i - 1][j]);
+//				}
+//				if (i < ROWS - 1) {
+//					grid[i][j].addAdjacency(grid[i + 1][j]);
+//				}
+//				if (j > 0) {
+//					grid[i][j].addAdjacency(grid[i][j - 1]);
+//				}
+//				if (j < COLS - 1) {
+//					grid[i][j].addAdjacency(grid[i][j + 1]);
+//				}
+//			}
+//		}
 	}
-	
-	
 
 }
