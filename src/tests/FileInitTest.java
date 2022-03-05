@@ -17,7 +17,7 @@ public class FileInitTest {
 	public static void setup() {
 		// initialize board with our layout and configuration
 		board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.csv");
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		board.initialize();
 	}
 	
@@ -25,7 +25,7 @@ public class FileInitTest {
 	public void testRoomLabels() {
 		assertEquals("Kitchen Arena", board.getRoom('K').getName());
 		assertEquals("Green Room", board.getRoom('G').getName());
-		assertEquals("Warehouse", board.getRoom('W').getName());
+		assertEquals("Warehouse", board.getRoom('H').getName());
 		assertEquals("Rec Room", board.getRoom('R').getName());
 		assertEquals("Battle Zone", board.getRoom('B').getName());
 	}

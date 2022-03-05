@@ -6,7 +6,10 @@ import java.util.Set;
 public class BoardCell {
 	private int row, column;
 	private Set<BoardCell> adjList = new HashSet<>();
-	private boolean isRoom, isOccupied;
+	private boolean isRoom, isOccupied, isLabel, isRoomCenter;
+	private DoorDirection doorDirection;
+	private char secretPassage;
+	
 
 	public BoardCell(int row, int column) {
 		this.row = row;
@@ -36,30 +39,41 @@ public class BoardCell {
 	public void addAdjacency(BoardCell cell) {
 		adjList.add(cell);
 	}
+	
+	public void setLabel(boolean isLabel) {
+		this.isLabel = isLabel;
+	}
+
+	public void setRoomCenter(boolean isRoomCenter) {
+		this.isRoomCenter = isRoomCenter;
+	}
+
+	public void setDoorDirection(DoorDirection doorDirection) {
+		this.doorDirection = doorDirection;
+	}
+
+	public void setSecretPassage(char secretPassage) {
+		this.secretPassage = secretPassage;
+	}
 
 	public boolean isDoorway() {
-		// TODO Auto-generated method stub
-		return false;
+		return doorDirection != null && doorDirection != DoorDirection.NONE;
 	}
 
 	public DoorDirection getDoorDirection() {
-		// TODO Auto-generated method stub
-		return null;
+		return doorDirection;
 	}
 
 	public boolean isLabel() {
-		// TODO Auto-generated method stub
-		return false;
+		return isLabel;
 	}
 
 	public boolean isRoomCenter() {
-		// TODO Auto-generated method stub
-		return false;
+		return isRoomCenter;
 	}
 
 	public char getSecretPassage() {
-		// TODO Auto-generated method stub
-		return 0;
+		return secretPassage;
 	}
 
 }
