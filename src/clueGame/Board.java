@@ -2,6 +2,7 @@ package clueGame;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Board {
-	private BoardCell[][] grid;
+	private ArrayList<ArrayList<BoardCell>> grid;
 	private Set<BoardCell> targets;
 	private String layoutFile, setupFile;
 	private Map<Character, Room> rooms;
@@ -100,8 +101,6 @@ public class Board {
 					throw new BadConfigFormatException(String.format("line %d of %s should have 3 entries", lineNumber, setupFile));
 				}
 				if (!split[0].equals("Room") && !split[0].equals("Space")) {
-					// the program doesn't actually appear to use this value anywhere
-					// but it does need to be either "Room" or "Space"
 					throw new BadConfigFormatException(String.format("line %d of %s has bad room type %s", lineNumber, setupFile, split[0]));
 				}
 				if (split[2].length() != 1) {
@@ -111,7 +110,7 @@ public class Board {
 					throw new BadConfigFormatException(String.format("line %d of %s contains duplicate room character %s", lineNumber, setupFile, split[2]));
 				}
 				
-				var room = new Room(split[1]);
+				var room = new Room(split[1], split[0] == "Space");
 				rooms.put(split[2].charAt(0), room);
 			}
 		} catch (FileNotFoundException e) {
@@ -120,6 +119,42 @@ public class Board {
 	}
 
 	public void loadLayoutConfig() throws BadConfigFormatException {
+		
+		String line = "";
+		var rowNumber = 0;
+		 grid = new ArrayList<>();
+		
+		try (var scanner = new Scanner(new FileInputStream(layoutFile))) {
+			while (scanner.hasNextLine()) {
+				line = scanner.nextLine();
+				
+				var split = line.split(", ");
+				
+				ArrayList<BoardCell> row = new ArrayList<>();
+				
+				if(!grid.isEmpty()){
+					if(split.length != grid.get(0).size()) {
+						throw new BadConfigFormatException("Not the right length.");
+					}
+				}
+				
+				for(int i=0; i<split.length; i++) {
+					BoardCell temp = new BoardCell(rowNumber, i);
+					
+					row.add(temp);
+				}
+				
+						
+				rowNumber++;
+			}
+			
+			
+			
+		}catch(FileNotFoundException e) {
+			throw new BadConfigFormatException(e.toString());
+		}
+		
+		
 //		grid = new BoardCell[ROWS][COLS];
 //		for (var i = 0; i < ROWS; i++) {
 //			for (var j = 0; j < COLS; j++) {

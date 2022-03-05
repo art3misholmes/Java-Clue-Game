@@ -2,10 +2,12 @@ package clueGame;
 
 public class Room {
 	private String name;
+	private boolean isNormalSpace;
 	private BoardCell labelCell, centerCell;
 
-	public Room(String name) {
+	public Room(String name, boolean isNormalSpace) {
 		this.name = name;
+		this.isNormalSpace = isNormalSpace;
 	}
 
 	public String getName() {
