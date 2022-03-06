@@ -218,4 +218,9 @@ public class Board {
 		}
 	}
 
+	public Set<BoardCell> getAdjList(int i, int j) {
+		// TODO Auto-generated method stub
+		return new HashSet();
+	}
+
 }
