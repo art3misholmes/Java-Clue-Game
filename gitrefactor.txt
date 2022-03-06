@@ -1,0 +1,93 @@
+diff --git a/Test.txt b/Test.txt
+new file mode 100644
+index 0000000..c38b5de
+--- /dev/null
++++ b/Test.txt
+@@ -0,0 +1,20 @@
++testRoomLabels:
++	We chose every other room as listed in our ClueSetup.txt (except that I forgot we were doing every other room at one point so there are two included in a row)
++	
++testBoardDimensions:
++	We dropped a column and added a row.
++	
++fourDoorDirections:
++	We have a door leading UP into the Studio,
++	LEFT into the VIP lounge,
++	DOWN into the Kitchen Arena,
++	and RIGHT into the test kitchen.
++	We picked some random walkway tiles for not having doors.
++
++testNumberOfDoorways:
++	Self-explanatory, our map has two fewer doors.
++	
++testRooms:
++	We chose random rooms from our code,
++	and also refactored the non-null assertion on board.getRoom
++	into a generic function to reduce verbosity.
+\ No newline at end of file
+diff --git a/src/clueGame/Board.java b/src/clueGame/Board.java
+index 3246616..86d5079 100644
+--- a/src/clueGame/Board.java
++++ b/src/clueGame/Board.java
+@@ -145,7 +145,7 @@ public class Board {
+ 				}
+ 
+ 				for (int i = 0; i < split.length; i++) {
+-					BoardCell cell = new BoardCell(rowNumber, i);
++					BoardCell temp = new BoardCell(rowNumber, i);
+ 
+ 					// check for exceptional cells
+ 					if (split[i].length() < 1 || split[i].length() > 2 || !rooms.containsKey(split[i].charAt(0))) {
+@@ -153,41 +153,41 @@ public class Board {
+ 					}
+ 
+ 					var room = rooms.get(split[i].charAt(0));
+-					cellRooms.put(cell, room);
++					cellRooms.put(temp, room);
+ 					if (split[i].length() == 2) {
+ 						// with this fancy new syntax from java 17,
+ 						// you don't have to write break at the end of each case
+ 						switch (split[i].charAt(1)) {
+-						case '^' -> cell.setDoorDirection(DoorDirection.UP);
+-						case '<' -> cell.setDoorDirection(DoorDirection.LEFT);
+-						case '>' -> cell.setDoorDirection(DoorDirection.RIGHT);
+-						case 'v' -> cell.setDoorDirection(DoorDirection.DOWN);
++						case '^' -> temp.setDoorDirection(DoorDirection.UP);
++						case '<' -> temp.setDoorDirection(DoorDirection.LEFT);
++						case '>' -> temp.setDoorDirection(DoorDirection.RIGHT);
++						case 'v' -> temp.setDoorDirection(DoorDirection.DOWN);
+ 						case '#' -> {
+ 							if (room.getLabelCell() != null) {
+ 								throw new BadConfigFormatException(
+ 										String.format("Room %s has multiple labels", room.getName()));
+ 							}
+-							cell.setLabel(true);
+-							room.setLabelCell(cell);
++							temp.setLabel(true);
++							room.setLabelCell(temp);
+ 						}
+ 						case '*' -> {
+ 							if (room.getCenterCell() != null) {
+ 								throw new BadConfigFormatException(
+ 										String.format("Room %s has multiple centers", room.getName()));
+ 							}
+-							cell.setRoomCenter(true);
+-							room.setCenterCell(cell);
++							temp.setRoomCenter(true);
++							room.setCenterCell(temp);
+ 						}
+ 						default -> {
+ 							if (rooms.containsKey(split[i].charAt(1))) {
+-								cell.setSecretPassage(split[i].charAt(1));
++								temp.setSecretPassage(split[i].charAt(1));
+ 							} else {
+ 								throw new BadConfigFormatException(String.format("Bad cell %s", split[i]));
+ 							}
+ 						}
+ 						}
+ 					}
+-					row.add(cell);
++					row.add(temp);
+ 				}
+ 				grid.add(row);
+ 				rowNumber++;

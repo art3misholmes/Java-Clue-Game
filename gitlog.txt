@@ -1,3 +1,33 @@
+commit 3641349a6d730b019be4d14f53b688465946a794
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Mar 6 14:04:12 2022 -0700
+
+    Renamed "temp" local to "cell"
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 3d009c624579d27f1541157c923d86b1176c0c3d
+Author: Kai Page <kpage1@mines.edu>
+Date:   Fri Mar 4 18:34:15 2022 -0700
+
+    Finished Board.loadLayoutConfig()
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit ad2db8eea1f8b0c154cca96989b85b7c2de8676d
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Fri Mar 4 17:53:41 2022 -0700
+
+    worked on method loadLayoutConfig
+
+commit b8ada363c2d8bba7d6983fa04756f66ea42d60cf
+Author: Kai Page <kpage1@mines.edu>
+Date:   Fri Mar 4 16:59:56 2022 -0700
+
+    Implemented Board.loadSetupConfig()
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
 commit a049123d51194c6628b84a69bf9b5c66e18f3de7
 Author: Kai Page <kpage1@mines.edu>
 Date:   Wed Mar 2 17:34:46 2022 -0700
