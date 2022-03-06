@@ -145,7 +145,7 @@ public class Board {
 				}
 
 				for (int i = 0; i < split.length; i++) {
-					BoardCell temp = new BoardCell(rowNumber, i);
+					BoardCell cell = new BoardCell(rowNumber, i);
 
 					// check for exceptional cells
 					if (split[i].length() < 1 || split[i].length() > 2 || !rooms.containsKey(split[i].charAt(0))) {
@@ -153,41 +153,41 @@ public class Board {
 					}
 
 					var room = rooms.get(split[i].charAt(0));
-					cellRooms.put(temp, room);
+					cellRooms.put(cell, room);
 					if (split[i].length() == 2) {
 						// with this fancy new syntax from java 17,
 						// you don't have to write break at the end of each case
 						switch (split[i].charAt(1)) {
-						case '^' -> temp.setDoorDirection(DoorDirection.UP);
-						case '<' -> temp.setDoorDirection(DoorDirection.LEFT);
-						case '>' -> temp.setDoorDirection(DoorDirection.RIGHT);
-						case 'v' -> temp.setDoorDirection(DoorDirection.DOWN);
+						case '^' -> cell.setDoorDirection(DoorDirection.UP);
+						case '<' -> cell.setDoorDirection(DoorDirection.LEFT);
+						case '>' -> cell.setDoorDirection(DoorDirection.RIGHT);
+						case 'v' -> cell.setDoorDirection(DoorDirection.DOWN);
 						case '#' -> {
 							if (room.getLabelCell() != null) {
 								throw new BadConfigFormatException(
 										String.format("Room %s has multiple labels", room.getName()));
 							}
-							temp.setLabel(true);
-							room.setLabelCell(temp);
+							cell.setLabel(true);
+							room.setLabelCell(cell);
 						}
 						case '*' -> {
 							if (room.getCenterCell() != null) {
 								throw new BadConfigFormatException(
 										String.format("Room %s has multiple centers", room.getName()));
 							}
-							temp.setRoomCenter(true);
-							room.setCenterCell(temp);
+							cell.setRoomCenter(true);
+							room.setCenterCell(cell);
 						}
 						default -> {
 							if (rooms.containsKey(split[i].charAt(1))) {
-								temp.setSecretPassage(split[i].charAt(1));
+								cell.setSecretPassage(split[i].charAt(1));
 							} else {
 								throw new BadConfigFormatException(String.format("Bad cell %s", split[i]));
 							}
 						}
 						}
 					}
-					row.add(temp);
+					row.add(cell);
 				}
 				grid.add(row);
 				rowNumber++;
