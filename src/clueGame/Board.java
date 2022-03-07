@@ -65,8 +65,8 @@ public class Board {
 	}
 
 	public void setConfigFiles(String layout, String setup) {
-		layoutFile = layout;
-		setupFile = setup;
+		layoutFile = "data/" + layout;
+		setupFile = "data/" + setup;
 	}
 
 	public Room getRoom(char c) {
