@@ -218,9 +218,13 @@ public class Board {
 		}
 	}
 
-	public Set<BoardCell> getAdjList(int i, int j) {
-		// TODO Auto-generated method stub
-		return new HashSet();
+	public Set<BoardCell> getAdjList(int row, int column) {
+		
+		//call cell's adjacency 
+		var cell = grid.get(row).get(column);
+		var temp = cell.getAdjList();
+		
+		return temp;
 	}
 
 }

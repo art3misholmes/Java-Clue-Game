@@ -9,7 +9,7 @@ public class BoardCell {
 	private boolean isRoom, isOccupied, isLabel, isRoomCenter;
 	private DoorDirection doorDirection;
 	private char secretPassage;
-	
+
 
 	public BoardCell(int row, int column) {
 		this.row = row;
@@ -37,9 +37,11 @@ public class BoardCell {
 	}
 
 	public void addAdjacency(BoardCell cell) {
+
 		adjList.add(cell);
+
 	}
-	
+
 	public void setLabel(boolean isLabel) {
 		this.isLabel = isLabel;
 	}
