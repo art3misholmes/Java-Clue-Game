@@ -40,9 +40,9 @@ public class Board {
 
 	private void calcTargets(BoardCell startCell, int pathLength, Set<BoardCell> visited) {
 		for (var cell : startCell.getAdjList()) {
-			if (!(visited.contains(cell) || cell.isRoom() || cell.isOccupied())) {
+			if (!(visited.contains(cell) || (cell.isOccupied() && !cell.isRoomCenter()))) {
 				visited.add(cell);
-				if (pathLength == 1) {
+				if (pathLength == 1 || cell.isRoom()) {
 					targets.add(cell);
 				} else {
 					calcTargets(cell, pathLength - 1, visited);
@@ -154,6 +154,8 @@ public class Board {
 
 					var room = rooms.get(split[i].charAt(0));
 					cellRooms.put(cell, room);
+					if()
+					
 					if (split[i].length() == 2) {
 						// with this fancy new syntax from java 17,
 						// you don't have to write break at the end of each case
@@ -246,6 +248,16 @@ public class Board {
 						}
 					}
 				}
+				
+				//secret door
+				if(cell.getSecretPassage() != 0) {
+					var from = cellRooms.get(cell);
+					
+					var to = rooms.get(cell.getSecretPassage());
+					
+					from.getCenterCell().addAdjacency(to.getCenterCell());
+				}
+				
 			}
 		}
 	}
