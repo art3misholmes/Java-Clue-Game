@@ -196,34 +196,76 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			throw new BadConfigFormatException(e.toString());
 		}
-		
+
 		rows = grid.size();
 		cols = grid.get(0).size();
 
 		for (var i = 0; i < rows; i++) {
 			for (var j = 0; j < cols; j++) {
-				if (i > 0) {
-					grid.get(i).get(j).addAdjacency(grid.get(i - 1).get(j));
-				}
-				if (i < rows - 1) {
-					grid.get(i).get(j).addAdjacency(grid.get(i + 1).get(j));
-				}
-				if (j > 0) {
-					grid.get(i).get(j).addAdjacency(grid.get(i).get(j - 1));
-				}
-				if (j < cols - 1) {
-					grid.get(i).get(j).addAdjacency(grid.get(i).get(j + 1));
+				var cell = grid.get(i).get(j);
+				// only process walkway tiles directly
+				if (cellCanHaveAdjacencies(cell)) {
+					// adjacencies to other walkway tiles
+					if (i > 0) {
+						maybeAddAdjacency(cell, grid.get(i - 1).get(j));
+					}
+					if (i < rows - 1) {
+						maybeAddAdjacency(cell, grid.get(i + 1).get(j));
+					}
+					if (j > 0) {
+						maybeAddAdjacency(cell, grid.get(i).get(j - 1));
+					}
+					if (j < cols - 1) {
+						maybeAddAdjacency(cell, grid.get(i).get(j + 1));
+					}
+
+					// adjacencies into/out of rooms
+					if (cell.getDoorDirection() != null) {
+						Room room;
+						switch (cell.getDoorDirection()) {
+						case UP:
+							room = getRoom(grid.get(i - 1).get(j));
+							cell.addAdjacency(room.getCenterCell());
+							room.getCenterCell().addAdjacency(cell);
+							break;
+						case DOWN:
+							room = getRoom(grid.get(i + 1).get(j));
+							cell.addAdjacency(room.getCenterCell());
+							room.getCenterCell().addAdjacency(cell);
+							break;
+						case LEFT:
+							room = getRoom(grid.get(i).get(j - 1));
+							cell.addAdjacency(room.getCenterCell());
+							room.getCenterCell().addAdjacency(cell);
+							break;
+						case RIGHT:
+							room = getRoom(grid.get(i - 1).get(j + 1));
+							cell.addAdjacency(room.getCenterCell());
+							room.getCenterCell().addAdjacency(cell);
+							break;
+						}
+					}
 				}
 			}
 		}
 	}
 
+	private boolean cellCanHaveAdjacencies(BoardCell cell) {
+		return getRoom(cell).getName().equals("Walkway");
+	}
+
+	private void maybeAddAdjacency(BoardCell cell, BoardCell maybeAdjacent) {
+		if (cellCanHaveAdjacencies(maybeAdjacent)) {
+			cell.addAdjacency(maybeAdjacent);
+		}
+	}
+
 	public Set<BoardCell> getAdjList(int row, int column) {
-		
-		//call cell's adjacency 
+
+		// call cell's adjacency
 		var cell = grid.get(row).get(column);
 		var temp = cell.getAdjList();
-		
+
 		return temp;
 	}
 

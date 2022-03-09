@@ -1,3 +1,50 @@
+commit 8e93ae3c2c768a9ce1bbc53662443d9fc5ee9bbe
+Merge: 8849acf 55e2203
+Author: Kai Page <kpage1@mines.edu>
+Date:   Mon Mar 7 16:02:10 2022 -0700
+
+    Merge branch 'fixing-file-loading' into main
+
+commit 55e2203d62d7a8eb74886d727a6b09a0847fad80
+Author: Kai Page <kpage1@mines.edu>
+Date:   Mon Mar 7 15:58:04 2022 -0700
+
+    Fixed file loading to not require run configuration
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 8849acf695bdb18796a080fbea358b395cd28e07
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Mar 6 16:12:04 2022 -0700
+
+    Finished targeting tests
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 16716d0527693557012589904ff3ba8c8d2404d6
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Mar 6 15:33:18 2022 -0700
+
+    2 tests for targets and tests for ajacentcy
+
+commit 9c7e3b5b824de4a051772f355f0ffd4e191087eb
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Mar 6 15:30:59 2022 -0700
+
+    2 tests for targets and tests for ajacentcy
+
+commit d12b1c7632ce3e93bc10b2f150bdc09c46f20d47
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Mar 6 14:34:46 2022 -0700
+
+    updated excel sheet
+
+commit ae306dd1086c4ab7fc3068f1d20d91a77fe8fb33
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Mar 6 14:10:26 2022 -0700
+
+    added new test .java
+
 commit 3641349a6d730b019be4d14f53b688465946a794
 Author: Kai Page <kpage1@mines.edu>
 Date:   Sun Mar 6 14:04:12 2022 -0700
