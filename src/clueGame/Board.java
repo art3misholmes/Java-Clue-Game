@@ -154,8 +154,8 @@ public class Board {
 
 					var room = rooms.get(split[i].charAt(0));
 					cellRooms.put(cell, room);
-				    cell.setRoom(!room.isNormalSpace());
-					
+					cell.setRoom(!room.isNormalSpace());
+
 					if (split[i].length() == 2) {
 						// with this fancy new syntax from java 17,
 						// you don't have to write break at the end of each case
@@ -206,68 +206,69 @@ public class Board {
 			for (var j = 0; j < cols; j++) {
 				var cell = grid.get(i).get(j);
 				// only process walkway tiles directly
-				if (cellCanHaveAdjacencies(cell)) {
+				if (cellIsWalkway(cell)) {
 					// adjacencies to other walkway tiles
 					if (i > 0) {
-						maybeAddAdjacency(cell, grid.get(i - 1).get(j));
+						addAdjacencyIfWalkway(cell, grid.get(i - 1).get(j));
 					}
 					if (i < rows - 1) {
-						maybeAddAdjacency(cell, grid.get(i + 1).get(j));
+						addAdjacencyIfWalkway(cell, grid.get(i + 1).get(j));
 					}
 					if (j > 0) {
-						maybeAddAdjacency(cell, grid.get(i).get(j - 1));
+						addAdjacencyIfWalkway(cell, grid.get(i).get(j - 1));
 					}
 					if (j < cols - 1) {
-						maybeAddAdjacency(cell, grid.get(i).get(j + 1));
+						addAdjacencyIfWalkway(cell, grid.get(i).get(j + 1));
 					}
 
 					// adjacencies into/out of rooms
 					if (cell.getDoorDirection() != null) {
-						Room room;
 						switch (cell.getDoorDirection()) {
-						case UP:
-							room = getRoom(grid.get(i - 1).get(j));
+						case UP -> {
+							var room = getRoom(grid.get(i - 1).get(j));
 							cell.addAdjacency(room.getCenterCell());
 							room.getCenterCell().addAdjacency(cell);
-							break;
-						case DOWN:
-							room = getRoom(grid.get(i + 1).get(j));
+						}
+						case DOWN -> {
+							var room = getRoom(grid.get(i + 1).get(j));
 							cell.addAdjacency(room.getCenterCell());
 							room.getCenterCell().addAdjacency(cell);
-							break;
-						case LEFT:
-							room = getRoom(grid.get(i).get(j - 1));
+						}
+						case LEFT -> {
+							var room = getRoom(grid.get(i).get(j - 1));
 							cell.addAdjacency(room.getCenterCell());
 							room.getCenterCell().addAdjacency(cell);
-							break;
-						case RIGHT:
-							room = getRoom(grid.get(i - 1).get(j + 1));
+						}
+						case RIGHT -> {
+							var room = getRoom(grid.get(i - 1).get(j + 1));
 							cell.addAdjacency(room.getCenterCell());
 							room.getCenterCell().addAdjacency(cell);
-							break;
+						}
+						default -> {
+						}
 						}
 					}
 				}
-				
-				//secret door
-				if(cell.getSecretPassage() != 0) {
+
+				// secret door
+				if (cell.getSecretPassage() != 0) {
 					var from = cellRooms.get(cell);
-					
+
 					var to = rooms.get(cell.getSecretPassage());
-					
+
 					from.getCenterCell().addAdjacency(to.getCenterCell());
 				}
-				
+
 			}
 		}
 	}
 
-	private boolean cellCanHaveAdjacencies(BoardCell cell) {
+	private boolean cellIsWalkway(BoardCell cell) {
 		return getRoom(cell).getName().equals("Walkway");
 	}
 
-	private void maybeAddAdjacency(BoardCell cell, BoardCell maybeAdjacent) {
-		if (cellCanHaveAdjacencies(maybeAdjacent)) {
+	private void addAdjacencyIfWalkway(BoardCell cell, BoardCell maybeAdjacent) {
+		if (cellIsWalkway(maybeAdjacent)) {
 			cell.addAdjacency(maybeAdjacent);
 		}
 	}
