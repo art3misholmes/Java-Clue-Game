@@ -115,7 +115,7 @@ public class Board {
 							"line %d of %s contains duplicate room character %s", lineNumber, setupFile, split[2]));
 				}
 
-				var room = new Room(split[1], split[0] == "Space");
+				var room = new Room(split[1], split[0].equals("Space"));
 				rooms.put(split[2].charAt(0), room);
 			}
 		} catch (FileNotFoundException e) {
@@ -154,7 +154,7 @@ public class Board {
 
 					var room = rooms.get(split[i].charAt(0));
 					cellRooms.put(cell, room);
-					if()
+				    cell.setRoom(!room.isNormalSpace());
 					
 					if (split[i].length() == 2) {
 						// with this fancy new syntax from java 17,

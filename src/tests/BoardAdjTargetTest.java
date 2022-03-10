@@ -23,7 +23,7 @@ public class BoardAdjTargetTest {
 		// Board is singleton, get the only instance
 		board = Board.getInstance();
 		// set the file names to use my config files
-		board.setConfigFiles("ClueLayout306.csv", "ClueSetup306.txt");
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
 		// Initialize will load config files
 		board.initialize();
 	}
@@ -36,8 +36,9 @@ public class BoardAdjTargetTest {
 		Set<BoardCell> testList = board.getAdjList(10, 1);
 		assertSetContents(testList, board.getCell(10, 3));
 
+		// from a room to a door where there is also a secret passage
 		testList = board.getAdjList(23, 20);
-		assertSetContents(testList, board.getCell(20, 19), board.getCell(2, 20));
+		assertSetContents(testList, board.getCell(23, 17), board.getCell(20, 19), board.getCell(2, 20));
 
 		// from a room to a door
 		testList = board.getAdjList(19, 3);
@@ -84,7 +85,7 @@ public class BoardAdjTargetTest {
 		// test a roll of 4
 		board.calcTargets(board.getCell(9, 20), 4);
 		targets = board.getTargets();
-		assertSetContents(targets, 15, board.getCell(11, 16), board.getCell(4, 20), board.getCell(2, 20));
+		assertSetContents(targets, 18, board.getCell(11, 16), board.getCell(4, 20), board.getCell(2, 20));
 	}
 
 	// Tests using or not using the secret passage when rolling a 1 or 2
@@ -114,12 +115,12 @@ public class BoardAdjTargetTest {
 		// test a roll of 3
 		board.calcTargets(board.getCell(10, 4), 3);
 		targets = board.getTargets();
-		assertSetContents(targets, 11, board.getCell(7, 4), board.getCell(12, 5), board.getCell(10, 1));
+		assertSetContents(targets, 14, board.getCell(7, 4), board.getCell(12, 5), board.getCell(10, 1));
 
 		// test a roll of 4
 		board.calcTargets(board.getCell(10, 4), 4);
 		targets = board.getTargets();
-		assertSetContents(targets, 13, board.getCell(6, 4), board.getCell(12, 6), board.getCell(10, 1));
+		assertSetContents(targets, 18, board.getCell(6, 4), board.getCell(12, 6), board.getCell(10, 1));
 	}
 
 	// Tests rolling a 1 at the board edge
@@ -168,7 +169,7 @@ public class BoardAdjTargetTest {
 		board.calcTargets(board.getCell(6, 2), 1);
 		board.getCell(2, 1).setOccupied(false);
 		targets = board.getTargets();
-		assertEquals(3, targets.size());
+		assertEquals(4, targets.size());
 		assertTrue(targets.contains(board.getCell(2, 1)));
 
 		// check leaving a room with a blocked doorway

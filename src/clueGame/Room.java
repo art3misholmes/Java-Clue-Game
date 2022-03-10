@@ -10,6 +10,10 @@ public class Room {
 		this.isNormalSpace = isNormalSpace;
 	}
 
+	public boolean isNormalSpace() {
+		return isNormalSpace;
+	}
+
 	public String getName() {
 		return name;
 	}

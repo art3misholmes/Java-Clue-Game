@@ -16,6 +16,14 @@ public class BoardCell {
 		this.column = column;
 	}
 
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
 	public boolean isRoom() {
 		return isRoom;
 	}
