@@ -8,20 +8,26 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+/**
+ * This is the actual board for our clue game.
+ * @author Kelsi Wood
+ * @author Kai Page
+ */
 
 public class Board {
-	private ArrayList<ArrayList<BoardCell>> grid;
+	private ArrayList<ArrayList<BoardCell>> grid; 
 	private Set<BoardCell> targets;
 	private String layoutFile, setupFile;
-	private Map<Character, Room> rooms;
-	private Map<BoardCell, Room> cellRooms;
+	private Map<Character, Room> rooms; // list of corresponding char to each room
+	private Map<BoardCell, Room> cellRooms; // the cells that make up a room
 	private int rows, cols;
 
-	private static Board instance = new Board();
+	private static Board instance = new Board(); // singleton 
 
-	private Board() {
-	}
-
+	// part of singleton 
+	private Board() {}
+	
+	// sets up the board
 	public void initialize() {
 		try {
 			loadSetupConfig();
@@ -30,7 +36,8 @@ public class Board {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
+	//calc...
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		targets = new HashSet<>();
 		var visited = new HashSet<BoardCell>();
@@ -51,40 +58,8 @@ public class Board {
 			}
 		}
 	}
-
-	public Set<BoardCell> getTargets() {
-		return targets;
-	}
-
-	public BoardCell getCell(int row, int col) {
-		return grid.get(row).get(col);
-	}
-
-	public static Board getInstance() {
-		return instance;
-	}
-
-	public void setConfigFiles(String layout, String setup) {
-		layoutFile = "data/" + layout;
-		setupFile = "data/" + setup;
-	}
-
-	public Room getRoom(char c) {
-		return rooms.get(c);
-	}
-
-	public int getNumRows() {
-		return rows;
-	}
-
-	public int getNumColumns() {
-		return cols;
-	}
-
-	public Room getRoom(BoardCell cell) {
-		return cellRooms.get(cell);
-	}
-
+	
+	// loads the configuration of the board
 	public void loadSetupConfig() throws BadConfigFormatException {
 		rooms = new HashMap<>();
 		var lineNumber = 0;
@@ -123,6 +98,7 @@ public class Board {
 		}
 	}
 
+	// loads the layout of the board
 	public void loadLayoutConfig() throws BadConfigFormatException {
 
 		String line = "";
@@ -273,13 +249,45 @@ public class Board {
 		}
 	}
 
+	//gets adjacent cells to current cell
 	public Set<BoardCell> getAdjList(int row, int column) {
-
 		// call cell's adjacency
-		var cell = grid.get(row).get(column);
-		var temp = cell.getAdjList();
-
-		return temp;
+		return grid.get(row).get(column).getAdjList();
 	}
+	
+	// getters
+	public Set<BoardCell> getTargets() {
+		return targets;
+	}
+
+	public BoardCell getCell(int row, int col) {
+		return grid.get(row).get(col);
+	}
+
+	public static Board getInstance() {
+		return instance;
+	}
+	public Room getRoom(char c) {
+		return rooms.get(c);
+	}
+
+	public int getNumRows() {
+		return rows;
+	}
+
+	public int getNumColumns() {
+		return cols;
+	}
+
+	public Room getRoom(BoardCell cell) {
+		return cellRooms.get(cell);
+	}
+	
+	//setters
+	public void setConfigFiles(String layout, String setup) {
+		layoutFile = "data/" + layout;
+		setupFile = "data/" + setup;
+	}
+
 
 }
