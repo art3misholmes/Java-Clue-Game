@@ -73,18 +73,15 @@ public class BoardAdjTargetTest {
 	@Test
 	public void testTargetsInTestKitchen() {
 		// test a roll of 1
-		board.calcTargets(board.getCell(9, 20), 1);
-		Set<BoardCell> targets = board.getTargets();
+		var targets = board.getTargets(board.getCell(9, 20), 1);
 		assertSetContents(targets, board.getCell(10, 18), board.getCell(5, 20));
 
 		// test a roll of 3
-		board.calcTargets(board.getCell(9, 20), 3);
-		targets = board.getTargets();
+		targets = board.getTargets(board.getCell(9, 20), 3);
 		assertSetContents(targets, 10, board.getCell(12, 18), board.getCell(5, 22), board.getCell(2, 20));
 
 		// test a roll of 4
-		board.calcTargets(board.getCell(9, 20), 4);
-		targets = board.getTargets();
+		targets = board.getTargets(board.getCell(9, 20), 4);
 		assertSetContents(targets, 18, board.getCell(11, 16), board.getCell(4, 20), board.getCell(2, 20));
 	}
 

@@ -1,3 +1,39 @@
+commit 6d4a11cfb7c178c96933a3a70fdcd409d3dcc259
+Author: Kai Page <kpage1@mines.edu>
+Date:   Wed Mar 9 17:52:18 2022 -0700
+
+    Clarified names of Board.cellIsWalkway() and related methods
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 5ce63cd366ff3e8cf6ac0af8e81472e6b94c5d8d
+Author: Kai Page <kpage1@mines.edu>
+Date:   Wed Mar 9 17:06:49 2022 -0700
+
+    Fully fixed adjacency + targeting
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 55521e2f9ee2fb3a51a3692db2afbc98a5b252d1
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Wed Mar 9 16:36:23 2022 -0700
+
+    fixed two junit tests
+
+commit 5d63f2652373420973a0e11a6de33a2188b9d8fc
+Author: Kai Page <kpage1@mines.edu>
+Date:   Tue Mar 8 18:03:01 2022 -0700
+
+    Working on adjacency detection
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit dc3774573b9c6841d67510b9d259df8a6584658c
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Tue Mar 8 17:48:40 2022 -0700
+
+    fixed gatAdjLists
+
 commit 8e93ae3c2c768a9ce1bbc53662443d9fc5ee9bbe
 Merge: 8849acf 55e2203
 Author: Kai Page <kpage1@mines.edu>

@@ -16,11 +16,12 @@ import java.util.Set;
 
 public class Board {
 	private ArrayList<ArrayList<BoardCell>> grid; 
-	private Set<BoardCell> targets;
 	private String layoutFile, setupFile;
 	private Map<Character, Room> rooms; // list of corresponding char to each room
 	private Map<BoardCell, Room> cellRooms; // the cells that make up a room
 	private int rows, cols;
+	@Deprecated()
+	private Set<BoardCell> targets;
 
 	private static Board instance = new Board(); // singleton 
 
@@ -37,26 +38,32 @@ public class Board {
 		}
 	}
 	
-	//calc...
+	@Deprecated()
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		targets = new HashSet<>();
 		var visited = new HashSet<BoardCell>();
-		visited.add(startCell);
-		calcTargets(startCell, pathLength, visited);
+		calcTargets(startCell, pathLength, targets, visited);
+	}
+	
+	public Set<BoardCell> getTargets(BoardCell startCell, int pathLength) {
+		var targets = new HashSet<BoardCell>();
+		var visited = new HashSet<BoardCell>();
+		calcTargets(startCell, pathLength, targets, visited);
+		return targets;
 	}
 
-	private void calcTargets(BoardCell startCell, int pathLength, Set<BoardCell> visited) {
+	private void calcTargets(BoardCell startCell, int pathLength,  Set<BoardCell> targets, Set<BoardCell> visited) {
+		visited.add(startCell);
 		for (var cell : startCell.getAdjList()) {
 			if (!(visited.contains(cell) || (cell.isOccupied() && !cell.isRoomCenter()))) {
-				visited.add(cell);
 				if (pathLength == 1 || cell.isRoom()) {
 					targets.add(cell);
 				} else {
-					calcTargets(cell, pathLength - 1, visited);
+					calcTargets(cell, pathLength - 1, targets, visited);
 				}
-				visited.remove(cell);
 			}
 		}
+		visited.remove(startCell);
 	}
 	
 	// loads the configuration of the board
@@ -256,6 +263,7 @@ public class Board {
 	}
 	
 	// getters
+	@Deprecated()
 	public Set<BoardCell> getTargets() {
 		return targets;
 	}
