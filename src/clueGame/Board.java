@@ -106,7 +106,7 @@ public class Board {
 	}
 
 	// loads the layout of the board
-	public void loadLayoutConfig() throws BadConfigFormatException {
+	public void loadLayoutConfig() throws BadConfigFormatException, FileNotFoundException {
 
 		String line = "";
 		var rowNumber = 0;
@@ -178,8 +178,6 @@ public class Board {
 				rowNumber++;
 			}
 
-		} catch (FileNotFoundException e) {
-			throw new BadConfigFormatException(e.toString());
 		}
 
 		rows = grid.size();
