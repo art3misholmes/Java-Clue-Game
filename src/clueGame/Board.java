@@ -35,6 +35,8 @@ public class Board {
 			loadLayoutConfig();
 		} catch (BadConfigFormatException e) {
 			throw new RuntimeException(e);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
 		}
 	}
 	
@@ -67,7 +69,7 @@ public class Board {
 	}
 	
 	// loads the configuration of the board
-	public void loadSetupConfig() throws BadConfigFormatException {
+	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		rooms = new HashMap<>();
 		var lineNumber = 0;
 		try (var scanner = new Scanner(new FileInputStream(setupFile))) {
@@ -100,8 +102,6 @@ public class Board {
 				var room = new Room(split[1], split[0].equals("Space"));
 				rooms.put(split[2].charAt(0), room);
 			}
-		} catch (FileNotFoundException e) {
-			throw new BadConfigFormatException(e.toString());
 		}
 	}
 
