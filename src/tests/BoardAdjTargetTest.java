@@ -3,7 +3,7 @@ package tests;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
+import static tests.Assertions.*;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -163,16 +163,4 @@ public class BoardAdjTargetTest {
 		board.getCell(23, 17).setOccupied(false);
 		assertFalse(targets.contains(board.getCell(23, 17)));
 	}
-
-	private static <T> void assertSetContents(Set<T> set, int size, T... items) {
-		assertEquals(size, set.size());
-		for (var item : items) {
-			assertTrue(set.contains(item));
-		}
-	}
-
-	private static <T> void assertSetContents(Set<T> set, T... items) {
-		assertSetContents(set, items.length, items);
-	}
-
 }

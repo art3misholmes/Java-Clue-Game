@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.*;
+import static tests.Assertions.*;
 
 import java.util.Set;
 
@@ -98,12 +99,5 @@ public class BoardTestsExp {
 		board.calcTargets(cell, 6);
 		var target = board.getTargets();
 		assertSetContents(target);
-	}
-
-	private static <T> void assertSetContents(Set<T> set, T... items) {
-		assertEquals(items.length, set.size());
-		for (var item : items) {
-			assertTrue(set.contains(item));
-		}
 	}
 }
