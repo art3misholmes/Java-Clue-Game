@@ -40,6 +40,9 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * @see {@link getTargets(BoardCell, pathLength)}
+	 */
 	@Deprecated()
 	public void calcTargets(BoardCell startCell, int pathLength) {
 		targets = new HashSet<>();
@@ -47,6 +50,12 @@ public class Board {
 		calcTargets(startCell, pathLength, targets, visited);
 	}
 	
+	/**
+	 * Compute and return the accessible cells with a given roll
+	 * @param startCell the starting position
+	 * @param pathLength the number rolled
+	 * @return a set of cells the player can land on
+	 */
 	public Set<BoardCell> getTargets(BoardCell startCell, int pathLength) {
 		var targets = new HashSet<BoardCell>();
 		var visited = new HashSet<BoardCell>();
@@ -261,6 +270,10 @@ public class Board {
 	}
 	
 	// getters
+	
+	/**
+	 * @see {@link getTargets(BoardCell, pathLength)}
+	 */
 	@Deprecated()
 	public Set<BoardCell> getTargets() {
 		return targets;
