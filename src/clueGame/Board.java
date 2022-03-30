@@ -320,6 +320,9 @@ public class Board {
 	public ArrayList<ComputerPlayer> getComputerPlayers() {
 		return computerPlayers;
 	}
+	public Solution getSolution() {
+		return solution;
+	}
 	
 	//setters
 	public void setConfigFiles(String layout, String setup) {
