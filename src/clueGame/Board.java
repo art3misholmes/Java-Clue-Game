@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Stream;
 /**
  * This is the actual board for our clue game.
  * @author Kelsi Wood
@@ -278,6 +279,18 @@ public class Board {
 	public Set<BoardCell> getAdjList(int row, int column) {
 		// call cell's adjacency
 		return grid.get(row).get(column).getAdjList();
+	}
+	
+	/**
+	 * @return all the players
+	 */
+	public ArrayList<Player> allPlayers() {
+		var ret = new ArrayList<Player>(computerPlayers.size() + 1);
+		ret.add(humanPlayer);
+		for (var cpu : computerPlayers) {
+			ret.add(cpu);
+		}
+		return ret;
 	}
 	
 	// getters
