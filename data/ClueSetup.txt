@@ -14,8 +14,9 @@ Space, Unused, X
 Space, Walkway, W
 
 // first player is the human, rest are computers
-Player, Cocoa Ramsey, 1f4d6f, 0, 0
-Player, Marcon, 141436, 0, 0
+// TODO figure out actual starting locations, they are all placeholders right now
+Player, Cocoa Ramsey, 1f4d6f, 4, 2
+Player, Marcon, 141436, 3, 5
 Player, MessBot7337, dd5555, 0, 0
 Player, Leviathan Sami, f69b6e, 0, 0
 Player, Greto Sleewa, d6d0d2, 0, 0

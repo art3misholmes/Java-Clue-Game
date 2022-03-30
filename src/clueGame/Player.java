@@ -21,4 +21,24 @@ public abstract class Player {
 	public void updateHand(Card card) {
 		
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+	public Set<Card> getHand() {
+		return hand;
+	}
 }

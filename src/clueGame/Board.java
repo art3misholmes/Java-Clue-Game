@@ -24,6 +24,9 @@ public class Board {
 	private Set<BoardCell> targets;
 	
 	private Solution solution;
+	
+	private HumanPlayer humanPlayer;
+	private ArrayList<ComputerPlayer> computerPlayers;
 
 	private static Board instance = new Board(); // singleton 
 
@@ -308,6 +311,14 @@ public class Board {
 
 	public Room getRoom(BoardCell cell) {
 		return cellRooms.get(cell);
+	}
+
+	public HumanPlayer getHumanPlayer() {
+		return humanPlayer;
+	}
+
+	public ArrayList<ComputerPlayer> getComputerPlayers() {
+		return computerPlayers;
 	}
 	
 	//setters
