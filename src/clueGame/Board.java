@@ -22,6 +22,8 @@ public class Board {
 	private int rows, cols;
 	@Deprecated()
 	private Set<BoardCell> targets;
+	
+	private Solution solution;
 
 	private static Board instance = new Board(); // singleton 
 
@@ -38,6 +40,13 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	/**
+	 * Generate a deck of cards, then randomly distribute them between the players and solution
+	 */
+	public void deal() {
+		
 	}
 	
 	/**
@@ -186,7 +195,6 @@ public class Board {
 				grid.add(row);
 				rowNumber++;
 			}
-
 		}
 
 		rows = grid.size();

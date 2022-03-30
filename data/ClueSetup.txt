@@ -12,3 +12,19 @@ Room, Battle Zone, B
 // other spaces on board
 Space, Unused, X
 Space, Walkway, W
+
+// first player is the human, rest are computers
+Player, Cocoa Ramsey, 1f4d6f, 0, 0
+Player, Marcon, 141436, 0, 0
+Player, MessBot7337, dd5555, 0, 0
+Player, Leviathan Sami, f69b6e, 0, 0
+Player, Greto Sleewa, d6d0d2, 0, 0
+Player, Professor Norstar, aecad6, 0, 0
+
+// players and rooms are already specified, just need weapons
+Weapon, Immersion Blender
+Weapon, Rolling Pin
+Weapon, Frying Pan
+Weapon, Butcher Knife
+Weapon, Flambé Torch
+Weapon, Peanuts
