@@ -7,5 +7,5 @@ package clueGame;
  * @author Kelsi Wood
  */
 public record Solution(Card room, Card person, Card weapon) {
-	
+
 }

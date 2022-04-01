@@ -10,7 +10,7 @@ public class Assertions {
 	public Assertions() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public static <T> void assertSetContents(Set<T> set, int size, T... items) {
 		assertEquals(size, set.size());
 		for (var item : items) {

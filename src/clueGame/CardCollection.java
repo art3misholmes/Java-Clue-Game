@@ -4,7 +4,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Stores cards in a deck, hand, memory, etc.
+ * Stores cards in a deck, hand, etc.
  * 
  * @author Kai Page
  * @author Kelsi Wood
@@ -16,30 +16,29 @@ public class CardCollection {
 		cards.add(card);
 	}
 
+	public void clear() {
+		cards.clear();
+	}
+
 	public Set<Card> getCards() {
 		return cards;
 	}
-	
+
 	// order is person < weapon < room
-	
+
 	public Set<Card> getPersonCards() {
 		return cards.headSet(
 				// from person
-				new Card(Card.Type.WEAPON, "")
-		);
+				new Card(Card.Type.WEAPON, ""));
 	}
-	
+
 	public Set<Card> getWeaponCards() {
-		return cards.subSet(
-				new Card(Card.Type.WEAPON, ""), 
-				new Card(Card.Type.ROOM, "")
-		);
+		return cards.subSet(new Card(Card.Type.WEAPON, ""), new Card(Card.Type.ROOM, ""));
 	}
-	
+
 	public Set<Card> getRoomCards() {
-		return cards.tailSet(
-				new Card(Card.Type.ROOM, "")
-				// to end
+		return cards.tailSet(new Card(Card.Type.ROOM, "")
+		// to end
 		);
 	}
 }

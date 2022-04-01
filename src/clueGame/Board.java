@@ -30,6 +30,9 @@ public class Board {
 	@Deprecated()
 	private Set<BoardCell> targets;
 
+	/**
+	 * All the cards that exist, even after they have been dealt
+	 */
 	private CardCollection deck;
 	private Solution solution;
 
@@ -63,8 +66,11 @@ public class Board {
 		if (humanPlayer == null) {
 			return;
 		}
-		
+
 		var players = allPlayers();
+		for (var p : players) {
+			p.getHand().clear();
+		}
 		var cardStack = deck.getCards().stream().collect(Collectors.toList());
 		Collections.shuffle(cardStack);
 		Card room = null, person = null, weapon = null;
@@ -102,7 +108,7 @@ public class Board {
 				dealToNext = (dealToNext + 1) % players.size();
 			}
 		}
-		
+
 		solution = new Solution(room, person, weapon);
 	}
 
@@ -177,9 +183,12 @@ public class Board {
 								"line %d of %s contains duplicate room character %s", lineNumber, setupFile, split[2]));
 					}
 
-					var room = new Room(split[1], split[0].equals("Space"));
+					var isNormalSpace = split[0].equals("Space");
+					var room = new Room(split[1], isNormalSpace);
 					rooms.put(split[2].charAt(0), room);
-					deck.addCard(new Card(Card.Type.ROOM, split[1]));
+					if (!isNormalSpace) {
+						deck.addCard(new Card(Card.Type.ROOM, split[1]));
+					}
 				}
 				case "Player" -> {
 					var name = split[1];
@@ -382,6 +391,10 @@ public class Board {
 	@Deprecated()
 	public Set<BoardCell> getTargets() {
 		return targets;
+	}
+
+	public CardCollection getDeck() {
+		return deck;
 	}
 
 	public BoardCell getCell(int row, int col) {

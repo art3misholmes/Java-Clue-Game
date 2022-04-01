@@ -14,11 +14,12 @@ package clueGame;
  */
 public record Card(Type type, String name) implements Comparable<Card> {
 	public static enum Type {
-		PERSON,
-		WEAPON,
-		ROOM
+		PERSON, WEAPON, ROOM
 	}
 
+	/**
+	 * Sort by type, then by name
+	 */
 	@Override
 	public int compareTo(Card o) {
 		int cmp = type().compareTo(o.type());

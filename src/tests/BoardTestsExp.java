@@ -81,7 +81,7 @@ public class BoardTestsExp {
 		var cell = board.getCell(0, 0);
 		// y,x
 		board.getCell(3, 3).setOccupied(true);
-		
+
 		board.calcTargets(cell, 1);
 		var target = board.getTargets();
 		assertSetContents(target, board.getCell(0, 1), board.getCell(1, 0));
@@ -95,7 +95,7 @@ public class BoardTestsExp {
 		board.getCell(1, 0).setOccupied(true);
 		board.getCell(1, 2).setOccupied(true);
 		board.getCell(2, 1).setOccupied(true);
-		
+
 		board.calcTargets(cell, 6);
 		var target = board.getTargets();
 		assertSetContents(target);

@@ -8,16 +8,16 @@ public abstract class Player {
 	private String name;
 	private Color color;
 	private int row, column;
-	
+
 	private CardCollection hand = new CardCollection();
-	
+
 	public Player(String name, Color color, int row, int column) {
 		this.name = name;
 		this.color = color;
 		this.row = row;
 		this.column = column;
 	}
-	
+
 	public void updateHand(Card card) {
 		hand.addCard(card);
 	}
