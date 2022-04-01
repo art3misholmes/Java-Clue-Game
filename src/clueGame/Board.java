@@ -149,6 +149,14 @@ public class Board {
 		}
 		visited.remove(startCell);
 	}
+	
+	public boolean checkAccusation(Solution accusation) {
+		return false;
+	}
+	
+	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer) {
+		return null;
+	}
 
 	// loads the configuration of the board
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
@@ -212,7 +220,6 @@ public class Board {
 					throw new BadConfigFormatException(String.format("unexpected config entry type %s", split[0]));
 				}
 				}
-
 			}
 		}
 	}

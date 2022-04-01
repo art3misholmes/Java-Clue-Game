@@ -9,7 +9,11 @@ public abstract class Player {
 	private Color color;
 	private int row, column;
 
-	private CardCollection hand = new CardCollection();
+	private CardCollection hand = new CardCollection(), seen = new CardCollection();
+
+	public CardCollection getSeen() {
+		return seen;
+	}
 
 	public Player(String name, Color color, int row, int column) {
 		this.name = name;
@@ -20,6 +24,16 @@ public abstract class Player {
 
 	public void updateHand(Card card) {
 		hand.addCard(card);
+		// we see all the cards in our hand
+		seen.addCard(card);
+	}
+	
+	public void updateSeen(Card card) {
+		seen.addCard(card);
+	}
+	
+	public Card disproveSuggestion(Solution suggestion) {
+		return null;
 	}
 
 	public String getName() {

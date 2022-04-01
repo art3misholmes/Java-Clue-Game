@@ -1,3 +1,103 @@
+commit 358b69f074bd57659703cae1ff870cb53e876831
+Author: Kai Page <kpage1@mines.edu>
+Date:   Fri Apr 1 16:03:06 2022 -0600
+
+    Cleaned up code and clarified names
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 64f02a4dc3e47c41d0d072f161e0d1befb2a707b
+Author: Kai Page <kpage1@mines.edu>
+Date:   Thu Mar 31 18:02:07 2022 -0600
+
+    Filled out loadLayoutConfig() and deal() to pass player and card tests
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 66eb05a1eed631dccaf32bbfe0a5693783625463
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Wed Mar 30 17:42:03 2022 -0600
+
+    finished card tests
+
+commit 55263629d8004a08960f563d9d8f7e5ee68989a9
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Wed Mar 30 17:13:10 2022 -0600
+
+     started building card tests
+
+commit fb721267524c1124efaab147098100d76c5d9c49
+Author: Kai Page <kpage1@mines.edu>
+Date:   Wed Mar 30 16:47:46 2022 -0600
+
+    Wrote failing player tests
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit f123f6e2dca84f4d506464572c38e040d06a6d3b
+Author: Kai Page <kpage1@mines.edu>
+Date:   Wed Mar 30 16:29:01 2022 -0600
+
+    Stubbed out new functionality
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 2b68fc767f12c81bb5bb7231a7bd910e8c670597
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Mar 13 16:25:13 2022 -0600
+
+    moved assertions into their own class
+
+commit c6a71ecc0fef0092f8addbbd274b12e914333d98
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Mar 13 16:16:55 2022 -0600
+
+    Migrated our targeting tests to use Board.getTargets(BoardCell, int)
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 68be939ec839552963d76d4f97fa3b33e518d74e
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Mar 13 16:09:37 2022 -0600
+
+    Organized setters in BoardCell
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 363799243a1326e58bde09c9d70dcbec65010518
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Fri Mar 11 16:44:12 2022 -0700
+
+    orginized getters in BoardCell
+
+commit 42de5b039a193d2d9c1448bbb991d2e6282aeaf5
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Fri Mar 11 16:35:30 2022 -0700
+
+    added  throw FileNotFound in loadLayoutConfig
+
+commit 9efdc5570f7b77c1ef778f4e08518bb32dfde13a
+Author: Kai Page <kpage1@mines.edu>
+Date:   Fri Mar 11 16:32:08 2022 -0700
+
+    Allow Board.loadSetupConfig() to throw FileNotFoundException
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit cafe0db72a952e677be22848032357400aa0c918
+Author: Kai Page <kpage1@mines.edu>
+Date:   Fri Mar 11 16:30:24 2022 -0700
+
+    Created standalone Board.getTargets()
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 2be2c6f8b2cc1abccd8c3165d37891aab8967d59
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Fri Mar 11 16:20:13 2022 -0700
+
+    added more comments and cleaned code
+
 commit 6d4a11cfb7c178c96933a3a70fdcd409d3dcc259
 Author: Kai Page <kpage1@mines.edu>
 Date:   Wed Mar 9 17:52:18 2022 -0700
