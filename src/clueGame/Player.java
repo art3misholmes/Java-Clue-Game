@@ -9,7 +9,7 @@ public abstract class Player {
 	private Color color;
 	private int row, column;
 	
-	private Set<Card> hand = new TreeSet<>();
+	private CardCollection hand = new CardCollection();
 	
 	public Player(String name, Color color, int row, int column) {
 		this.name = name;
@@ -19,7 +19,7 @@ public abstract class Player {
 	}
 	
 	public void updateHand(Card card) {
-		
+		hand.addCard(card);
 	}
 
 	public String getName() {
@@ -38,7 +38,7 @@ public abstract class Player {
 		return column;
 	}
 
-	public Set<Card> getHand() {
+	public CardCollection getHand() {
 		return hand;
 	}
 }

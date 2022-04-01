@@ -1,58 +1,111 @@
 package clueGame;
 
+import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 /**
  * This is the actual board for our clue game.
+ * 
  * @author Kelsi Wood
  * @author Kai Page
  */
 
 public class Board {
-	private ArrayList<ArrayList<BoardCell>> grid; 
+	private ArrayList<ArrayList<BoardCell>> grid;
 	private String layoutFile, setupFile;
 	private Map<Character, Room> rooms; // list of corresponding char to each room
 	private Map<BoardCell, Room> cellRooms; // the cells that make up a room
 	private int rows, cols;
 	@Deprecated()
 	private Set<BoardCell> targets;
-	
+
+	private CardCollection deck;
 	private Solution solution;
-	
+
 	private HumanPlayer humanPlayer;
 	private ArrayList<ComputerPlayer> computerPlayers;
 
-	private static Board instance = new Board(); // singleton 
+	private static Board instance = new Board(); // singleton
 
-	// part of singleton 
-	private Board() {}
-	
+	// part of singleton
+	private Board() {
+	}
+
 	// sets up the board
 	public void initialize() {
 		try {
 			loadSetupConfig();
 			loadLayoutConfig();
+			deal();
 		} catch (BadConfigFormatException e) {
 			throw new RuntimeException(e);
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	/**
-	 * Generate a deck of cards, then randomly distribute them between the players and solution
+	 * Randomly distribute the cards between the players and solution
 	 */
 	public void deal() {
+		// the 306 configs do not have players, abort if that is the case
+		if (humanPlayer == null) {
+			return;
+		}
 		
+		var players = allPlayers();
+		var cardStack = deck.getCards().stream().collect(Collectors.toList());
+		Collections.shuffle(cardStack);
+		Card room = null, person = null, weapon = null;
+		var dealToNext = 0;
+
+		for (int i = 0; i < cardStack.size(); i++) {
+			var card = cardStack.get(i);
+
+			// switch expression: yield true if the card should be dealt to a player
+			if (switch (card.type()) {
+			case ROOM -> {
+				if (room == null) {
+					room = card;
+					yield false;
+				}
+				yield true;
+			}
+			case PERSON -> {
+				if (person == null) {
+					person = card;
+					yield false;
+				}
+				yield true;
+			}
+			case WEAPON -> {
+				if (weapon == null) {
+					weapon = card;
+					yield false;
+				}
+				yield true;
+			}
+			}) {
+				// card was not part of the solution, deal it to a player
+				players.get(dealToNext).updateHand(card);
+				dealToNext = (dealToNext + 1) % players.size();
+			}
+		}
+		
+		solution = new Solution(room, person, weapon);
 	}
-	
+
 	/**
 	 * @see {@link getTargets(BoardCell, pathLength)}
 	 */
@@ -62,10 +115,11 @@ public class Board {
 		var visited = new HashSet<BoardCell>();
 		calcTargets(startCell, pathLength, targets, visited);
 	}
-	
+
 	/**
 	 * Compute and return the accessible cells with a given roll
-	 * @param startCell the starting position
+	 * 
+	 * @param startCell  the starting position
 	 * @param pathLength the number rolled
 	 * @return a set of cells the player can land on
 	 */
@@ -76,7 +130,7 @@ public class Board {
 		return targets;
 	}
 
-	private void calcTargets(BoardCell startCell, int pathLength,  Set<BoardCell> targets, Set<BoardCell> visited) {
+	private void calcTargets(BoardCell startCell, int pathLength, Set<BoardCell> targets, Set<BoardCell> visited) {
 		visited.add(startCell);
 		for (var cell : startCell.getAdjList()) {
 			if (!(visited.contains(cell) || (cell.isOccupied() && !cell.isRoomCenter()))) {
@@ -89,10 +143,14 @@ public class Board {
 		}
 		visited.remove(startCell);
 	}
-	
+
 	// loads the configuration of the board
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		rooms = new HashMap<>();
+		deck = new CardCollection();
+		humanPlayer = null;
+		computerPlayers = new ArrayList<>();
+
 		var lineNumber = 0;
 		try (var scanner = new Scanner(new FileInputStream(setupFile))) {
 			while (scanner.hasNextLine()) {
@@ -103,26 +161,49 @@ public class Board {
 				}
 				var split = line.split(", ");
 
-				// check for exceptional input
-				if (split.length != 3) {
-					throw new BadConfigFormatException(
-							String.format("line %d of %s should have 3 entries", lineNumber, setupFile));
+				switch (split[0]) {
+				case "Room", "Space" -> {
+					// start by checking for exceptional input
+					if (split.length != 3) {
+						throw new BadConfigFormatException(
+								String.format("line %d of %s should have 3 entries", lineNumber, setupFile));
+					}
+					if (split[2].length() != 1) {
+						throw new BadConfigFormatException(String.format("line %d of %s has bad room character %s",
+								lineNumber, setupFile, split[2]));
+					}
+					if (rooms.containsKey(split[2].charAt(0))) {
+						throw new BadConfigFormatException(String.format(
+								"line %d of %s contains duplicate room character %s", lineNumber, setupFile, split[2]));
+					}
+
+					var room = new Room(split[1], split[0].equals("Space"));
+					rooms.put(split[2].charAt(0), room);
+					deck.addCard(new Card(Card.Type.ROOM, split[1]));
 				}
-				if (!split[0].equals("Room") && !split[0].equals("Space")) {
-					throw new BadConfigFormatException(
-							String.format("line %d of %s has bad room type %s", lineNumber, setupFile, split[0]));
+				case "Player" -> {
+					var name = split[1];
+					var color = new Color(Integer.parseInt(split[2].substring(0, 2), 16),
+							Integer.parseInt(split[2].substring(2, 4), 16),
+							Integer.parseInt(split[2].substring(4, 6), 16));
+					var row = Integer.parseInt(split[3]);
+					var column = Integer.parseInt(split[4]);
+
+					deck.addCard(new Card(Card.Type.PERSON, name));
+					if (humanPlayer == null) {
+						humanPlayer = new HumanPlayer(name, color, row, column);
+					} else {
+						computerPlayers.add(new ComputerPlayer(name, color, row, column));
+					}
 				}
-				if (split[2].length() != 1) {
-					throw new BadConfigFormatException(
-							String.format("line %d of %s has bad room character %s", lineNumber, setupFile, split[2]));
+				case "Weapon" -> {
+					deck.addCard(new Card(Card.Type.WEAPON, split[1]));
 				}
-				if (rooms.containsKey(split[2].charAt(0))) {
-					throw new BadConfigFormatException(String.format(
-							"line %d of %s contains duplicate room character %s", lineNumber, setupFile, split[2]));
+				default -> {
+					throw new BadConfigFormatException(String.format("unexpected config entry type %s", split[0]));
+				}
 				}
 
-				var room = new Room(split[1], split[0].equals("Space"));
-				rooms.put(split[2].charAt(0), room);
 			}
 		}
 	}
@@ -275,12 +356,12 @@ public class Board {
 		}
 	}
 
-	//gets adjacent cells to current cell
+	// gets adjacent cells to current cell
 	public Set<BoardCell> getAdjList(int row, int column) {
 		// call cell's adjacency
 		return grid.get(row).get(column).getAdjList();
 	}
-	
+
 	/**
 	 * @return all the players
 	 */
@@ -292,9 +373,9 @@ public class Board {
 		}
 		return ret;
 	}
-	
+
 	// getters
-	
+
 	/**
 	 * @see {@link getTargets(BoardCell, pathLength)}
 	 */
@@ -310,6 +391,7 @@ public class Board {
 	public static Board getInstance() {
 		return instance;
 	}
+
 	public Room getRoom(char c) {
 		return rooms.get(c);
 	}
@@ -333,15 +415,15 @@ public class Board {
 	public ArrayList<ComputerPlayer> getComputerPlayers() {
 		return computerPlayers;
 	}
+
 	public Solution getSolution() {
 		return solution;
 	}
-	
-	//setters
+
+	// setters
 	public void setConfigFiles(String layout, String setup) {
 		layoutFile = "data/" + layout;
 		setupFile = "data/" + setup;
 	}
-
 
 }

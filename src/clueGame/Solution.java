@@ -1,6 +1,6 @@
 package clueGame;
 
-// see Card for notes about record types, tl;dr: they're great!
+// see Card for notes about record classes. tl;dr: they're great!
 
 /**
  * @author Kai Page

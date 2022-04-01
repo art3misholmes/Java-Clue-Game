@@ -18,6 +18,7 @@ public class PlayerTests {
 		board.initialize();
 	}
 	
+	@Test
 	public void testPlayerLoading() {
 		// cocoa is the human player
 		var cocoa = board.getHumanPlayer();

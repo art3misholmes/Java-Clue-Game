@@ -45,7 +45,7 @@ public class CardTests {
 		
 		for(var p : board.allPlayers()) {
 			//if players hands are same size
-			var size = p.getHand().size();
+			var size = p.getHand().getCards().size();
 			sum += size;
 			
 			if(size > max) {
