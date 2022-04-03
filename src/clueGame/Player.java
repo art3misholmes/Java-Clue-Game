@@ -1,8 +1,12 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class Player {
 	private String name;
@@ -33,7 +37,20 @@ public abstract class Player {
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {
-		return null;
+		var listToDis = Stream.of(suggestion.room(), suggestion.person(), suggestion.weapon())
+                .filter(hand::contains)
+                .collect(Collectors.toList());
+		
+		if(listToDis.isEmpty()) {
+			return null;
+		}else {
+			Random rand = new Random();
+			int randPosition = rand.nextInt(listToDis.size());
+			// arraylist at rand num
+			var disSugest = listToDis.get(randPosition);
+			return disSugest;
+		}
+
 	}
 
 	public String getName() {
