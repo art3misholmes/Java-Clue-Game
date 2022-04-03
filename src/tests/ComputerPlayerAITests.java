@@ -38,7 +38,7 @@ public class ComputerPlayerAITests {
 			default -> fail("should not suggest person " + suggestion.person().name());
 			}
 
-			assertEquals(suggestion.person().type(), Card.Type.WEAPON);
+			assertEquals(suggestion.weapon().type(), Card.Type.WEAPON);
 			switch (suggestion.weapon().name()) {
 			case "Weapon 1" -> hasSuggestedWeapon1 = true;
 			case "Weapon 2" -> hasSuggestedWeapon2 = true;
