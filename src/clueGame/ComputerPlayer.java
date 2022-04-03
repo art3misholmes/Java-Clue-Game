@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -51,7 +52,7 @@ public class ComputerPlayer extends Player {
 		return newCombo;
 	}
 	
-	public BoardCell selectTarget(Set<BoardCell> validTargets) {
+	public BoardCell selectTarget(Set<BoardCell> validTargets, Map<BoardCell, Room> cellRooms) {
 		
 		return null;
 	}
