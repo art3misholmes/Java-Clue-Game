@@ -44,11 +44,7 @@ public abstract class Player {
 		if(listToDis.isEmpty()) {
 			return null;
 		}else {
-			Random rand = new Random();
-			int randPosition = rand.nextInt(listToDis.size());
-			// arraylist at rand num
-			var disSugest = listToDis.get(randPosition);
-			return disSugest;
+			return RandomChooser.pickRandom(listToDis);
 		}
 
 	}

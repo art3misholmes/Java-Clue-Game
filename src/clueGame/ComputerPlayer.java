@@ -31,20 +31,10 @@ public class ComputerPlayer extends Player {
 		unseenWeapons.removeAll(seenWeapons);
 
 		//rand player
-		// rand num from 0-arrarylist size
-		Random rand = new Random();
-		int randPosition = rand.nextInt(unseenPlayers.size());
-
-		// arraylist at rand num
-		var p = unseenPlayers.get(randPosition);
+		var p = RandomChooser.pickRandom(unseenPlayers);
 
 		//rand weapon
-		// rand num from 0-arrarylist size
-		Random rand2 = new Random();
-		int randPositionW = rand.nextInt(unseenWeapons.size());
-
-		// arraylist at rand num
-		var w = unseenWeapons.get(randPositionW);
+		var w = RandomChooser.pickRandom(unseenWeapons);
 
 		// create new solution composed of p, w, and given room
 		var newCombo = new Solution(roomCard, p, w);
@@ -54,27 +44,21 @@ public class ComputerPlayer extends Player {
 
 	public BoardCell selectTarget(Set<BoardCell> validTargets, Map<BoardCell, Room> cellRooms) {
 		// get a target from validTargets
-		var targetPrioity = new ArrayList<BoardCell>();
-		var targetNon = new ArrayList<BoardCell>();
+		var priorityTargets = new ArrayList<BoardCell>();
+		var otherTargets = new ArrayList<BoardCell>();
 
 		for(var t: validTargets) {
 			if(t.isRoom() && !this.getSeen().contains(cellRooms.get(t).getCard())) {
-				targetPrioity.add(t);
+				priorityTargets.add(t);
 			}else {
-				targetNon.add(t);
+				otherTargets.add(t);
 			}
 		}
 		// priority targets
-		Random rand = new Random();
-		if(targetPrioity.size() != 0) {
-			//pick rand and return it
-			// rand num from 0-arrarylist size
-			int randPosition = rand.nextInt(targetPrioity.size());
-			return targetPrioity.get(randPosition);
+		if(priorityTargets.size() != 0) {
+			return RandomChooser.pickRandom(priorityTargets);
 		}else {
-			//non
-			int randPosition = rand.nextInt(targetNon.size());
-			return targetNon.get(randPosition);
+			return RandomChooser.pickRandom(otherTargets);
 		}
 	}
 
