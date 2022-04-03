@@ -149,12 +149,22 @@ public class Board {
 		}
 		visited.remove(startCell);
 	}
-	
+
 	public boolean checkAccusation(Solution accusation) {
 		return accusation.equals(solution);
 	}
-	
+
 	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer) {
+		var players = allPlayers();
+		var suggestingIndex = players.indexOf(suggestingPlayer);
+		var numPlayers = players.size();
+		for (var i = (suggestingIndex + 1) % numPlayers; i != suggestingIndex; i = (i + 1) % numPlayers) {
+			var cardUsedToDis = players.get(i).disproveSuggestion(suggestion); 
+			if(cardUsedToDis != null) {
+				return cardUsedToDis;
+			}
+		}
+
 		return null;
 	}
 
