@@ -151,7 +151,7 @@ public class Board {
 	}
 	
 	public boolean checkAccusation(Solution accusation) {
-		return false;
+		return accusation.equals(solution);
 	}
 	
 	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer) {
