@@ -1,6 +1,6 @@
 package clueGame;
 
-import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
@@ -23,23 +23,23 @@ public class CardCollection {
 		cards.clear();
 	}
 
-	public Set<Card> getCards() {
+	public SortedSet<Card> getCards() {
 		return cards;
 	}
 
 	// order is person < weapon < room
 
-	public Set<Card> getPersonCards() {
+	public SortedSet<Card> getPersonCards() {
 		return cards.headSet(
 				// from person
 				new Card(Card.Type.WEAPON, ""));
 	}
 
-	public Set<Card> getWeaponCards() {
+	public SortedSet<Card> getWeaponCards() {
 		return cards.subSet(new Card(Card.Type.WEAPON, ""), new Card(Card.Type.ROOM, ""));
 	}
 
-	public Set<Card> getRoomCards() {
+	public SortedSet<Card> getRoomCards() {
 		return cards.tailSet(new Card(Card.Type.ROOM, "")
 		// to end
 		);
