@@ -15,6 +15,9 @@ public class CardCollection {
 	public void addCard(Card card) {
 		cards.add(card);
 	}
+	public boolean contains(Card card) {
+		return cards.contains(card);
+	}
 
 	public void clear() {
 		cards.clear();
