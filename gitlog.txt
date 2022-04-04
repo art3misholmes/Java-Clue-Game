@@ -1,3 +1,87 @@
+commit 538b803dfde5aaf325c7e56bdf9ebcd143f7acbe
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Apr 3 16:28:18 2022 -0600
+
+    Refactored picking random item from List into static function
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit de60d0a7f61a4100d01b045f747085288733d8fe
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Apr 3 16:21:29 2022 -0600
+
+    fin handleSuggestions
+
+commit 2147938808aa50cd2a900c9043410b886fe4bd7b
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Apr 3 16:01:52 2022 -0600
+
+    Added failing tests for handling a suggestion
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 304bcc620d190ae3ca5a24ee4a91331c3f8dc25e
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Apr 3 15:34:33 2022 -0600
+
+    finished disproveSuggestion in player.java
+
+commit 4304369e00f8eb27ed64db62f7dcbffc08779a40
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Apr 3 15:21:26 2022 -0600
+
+    wrote test for disprove
+
+commit 3b0f413e8e83e32967cac6957a0a0245cf068a44
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Apr 3 14:33:05 2022 -0600
+
+    Implemented accusation-checking
+    
+    Literally one line of code
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit b8253c36c51734c44aae1f9eb3e73f376bf3fed4
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Apr 3 14:31:18 2022 -0600
+
+    Added failing accusation-checking test
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit abdb2fd24209238c98448ecc009d720d22e3098e
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Apr 3 14:22:59 2022 -0600
+
+    finished select target in computer player
+
+commit 4e8b9acd4d6ed19ca0e6182dbb3814edaa5fa3d9
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Apr 3 13:51:01 2022 -0600
+
+    Wrote failing computer player targeting test
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 72f44896dc8fe02a6817e8bdb448fffce2cca663
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Apr 3 13:25:00 2022 -0600
+
+    compleated computer player create a suggestion
+
+commit 0aa3db017a2056f762d6b9fa189e2e6cf498ccb4
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Fri Apr 1 17:05:08 2022 -0600
+
+    built half of create suggestions for computer player
+
+commit 0334dfab94a57e95c76474c64a9315ae674fe6d8
+Author: Kai Page <kpage1@mines.edu>
+Date:   Fri Apr 1 16:38:36 2022 -0600
+
+    Stubbed out new behavior and added failing test for AI
+
 commit 358b69f074bd57659703cae1ff870cb53e876831
 Author: Kai Page <kpage1@mines.edu>
 Date:   Fri Apr 1 16:03:06 2022 -0600

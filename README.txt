@@ -1,4 +1,4 @@
-C20A Clue Players 1
+C21A Clue Players 2
 Kelsi Wood, Kai Page
 Section: OL
-found Collections.shuffle() by searching "java shuffle function"
+no external resources used
