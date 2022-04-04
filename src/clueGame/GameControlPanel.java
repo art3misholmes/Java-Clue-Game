@@ -7,11 +7,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class GameControlPanel extends JPanel {
 	private static final long serialVersionUID = 1L; // bluh
 	
-	private final JTextField turnField;
+	private final JTextField turnField, rollField;
 
 	/**
 	 * Constructor for the panel, it does 90% of the work
@@ -21,6 +22,8 @@ public class GameControlPanel extends JPanel {
 		
 		var topRow = new JPanel(new GridLayout(1, 4));
 		add(topRow);
+		
+		//whose turn
 		var turnPanel = new JPanel(new GridLayout(2, 1));
 		topRow.add(turnPanel);
 		var turnLabel = new JLabel("Whose turn?");
@@ -28,6 +31,16 @@ public class GameControlPanel extends JPanel {
 		turnField = new JTextField();
 		turnPanel.add(turnField);
 		turnField.setEditable(false);
+		
+		//rolls panel
+		var rollPanel = new JPanel(new GridLayout(1, 1));
+		topRow.add(rollPanel);
+		var rollLabel = new JLabel("Roll: ");
+		rollPanel.add(rollLabel);
+		rollLabel.setHorizontalAlignment(SwingConstants.TRAILING);
+		rollField = new JTextField();
+		rollPanel.add(rollField);
+		rollField.setEditable(false);
 	}
 
 	public void setTurn(Player p, int roll) {
