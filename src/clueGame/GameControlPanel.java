@@ -78,9 +78,7 @@ public class GameControlPanel extends JPanel {
 	public void setTurn(Player p, int roll) {
 		rollField.setText("" + roll);
 		turnField.setText(p.getName());
-		var hsbComponents = Color.RGBtoHSB(p.getColor().getRed(), p.getColor().getGreen(), p.getColor().getBlue(),
-				null);
-		turnField.setBackground(Color.getHSBColor(hsbComponents[0], hsbComponents[1] * 0.4f, (float) Math.sqrt(hsbComponents[2])));
+		turnField.setBackground(p.getAccentColor());
 	}
 
 	public void setGuess(String guess) {

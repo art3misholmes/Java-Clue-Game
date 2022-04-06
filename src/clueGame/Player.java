@@ -68,4 +68,11 @@ public abstract class Player {
 	public CardCollection getHand() {
 		return hand;
 	}
+	
+	public Color getAccentColor() {
+		var hsbComponents = Color.RGBtoHSB(getColor().getRed(), getColor().getGreen(), getColor().getBlue(),
+				null);
+		return Color.getHSBColor(hsbComponents[0], hsbComponents[1] * 0.4f, (float) Math.sqrt(hsbComponents[2]));
+		
+	}
 }
