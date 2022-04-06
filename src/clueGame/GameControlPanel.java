@@ -3,16 +3,19 @@ package clueGame;
 import java.awt.Color;
 import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class GameControlPanel extends JPanel {
 	private static final long serialVersionUID = 1L; // bluh
 	
-	private final JTextField turnField, rollField;
+	private final JTextField turnField, rollField, guessField, resultField;
 
 	/**
 	 * Constructor for the panel, it does 90% of the work
@@ -20,6 +23,7 @@ public class GameControlPanel extends JPanel {
 	public GameControlPanel()  {
 		setLayout(new GridLayout(2, 1));
 		
+		/* top row */
 		var topRow = new JPanel(new GridLayout(1, 4));
 		add(topRow);
 		
@@ -41,6 +45,34 @@ public class GameControlPanel extends JPanel {
 		rollField = new JTextField();
 		rollPanel.add(rollField);
 		rollField.setEditable(false);
+		
+		// accusation button
+		var accusationButton = new JButton("Make Accusation");
+		topRow.add(accusationButton);
+		
+		// next button
+		var nextButton = new JButton("NEXT!");
+		topRow.add(nextButton);
+		
+		/* bottom row */
+		var bottomRow = new JPanel(new GridLayout(1, 2));
+		add(bottomRow);
+		
+		// guess panel
+		var guessPanel = new JPanel(new GridLayout(1, 1));
+		bottomRow.add(guessPanel);
+		guessPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess"));
+		guessField = new JTextField();
+		guessPanel.add(guessField);
+		guessField.setEditable(false);
+		
+		// guess panel
+		var resultPanel = new JPanel(new GridLayout(1, 1));
+		bottomRow.add(resultPanel);
+		resultPanel.setBorder(new TitledBorder(new EtchedBorder(), "Guess Result"));
+		resultField = new JTextField();
+		resultPanel.add(resultField);
+		resultField.setEditable(false);
 	}
 
 	public void setTurn(Player p, int roll) {
