@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -14,6 +15,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.swing.JPanel;
+
 /**
  * This is the actual board for our clue game.
  * 
@@ -21,7 +24,9 @@ import java.util.stream.Stream;
  * @author Kai Page
  */
 
-public class Board {
+public class Board extends JPanel {
+	private static final long serialVersionUID = 1L; // bluh
+
 	private ArrayList<ArrayList<BoardCell>> grid;
 	private String layoutFile, setupFile;
 	private Map<Character, Room> rooms; // list of corresponding char to each room
@@ -159,8 +164,8 @@ public class Board {
 		var suggestingIndex = players.indexOf(suggestingPlayer);
 		var numPlayers = players.size();
 		for (var i = (suggestingIndex + 1) % numPlayers; i != suggestingIndex; i = (i + 1) % numPlayers) {
-			var cardUsedToDis = players.get(i).disproveSuggestion(suggestion); 
-			if(cardUsedToDis != null) {
+			var cardUsedToDis = players.get(i).disproveSuggestion(suggestion);
+			if (cardUsedToDis != null) {
 				return cardUsedToDis;
 			}
 		}
@@ -188,9 +193,9 @@ public class Board {
 				switch (split[0]) {
 				case "Room", "Space" -> {
 					// start by checking for exceptional input
-					if (split.length != 3) {
+					if (split.length != 3 && split.length != 4) {
 						throw new BadConfigFormatException(
-								String.format("line %d of %s should have 3 entries", lineNumber, setupFile));
+								String.format("line %d of %s should have 3 or 4 entries", lineNumber, setupFile));
 					}
 					if (split[2].length() != 1) {
 						throw new BadConfigFormatException(String.format("line %d of %s has bad room character %s",
@@ -206,6 +211,11 @@ public class Board {
 					rooms.put(split[2].charAt(0), room);
 					if (!isNormalSpace) {
 						deck.addCard(new Card(Card.Type.ROOM, split[1]));
+					}
+					
+					// fourth item in our setup is width of the label
+					if (split.length > 3) {
+						room.setLabelWidth(Integer.parseInt(split[3]));
 					}
 				}
 				case "Player" -> {
@@ -398,6 +408,58 @@ public class Board {
 			ret.add(cpu);
 		}
 		return ret;
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		// clear the screen
+		g.setColor(new Color(127, 255, 127));
+		g.fillRect(0, 0, getWidth(), getHeight());
+
+		// get a square to paint in
+		int dim, xOffset = 0, yOffset = 0;
+		if (getWidth() < getHeight()) {
+			dim = getWidth();
+			yOffset = (getHeight() - getWidth()) / 2;
+		} else {
+			dim = getHeight();
+			xOffset = (getWidth() - getHeight()) / 2;
+		}
+
+		// shrink to the game board's aspect ratio
+		int width, height;
+		if (cols < rows) {
+			height = dim;
+			width = dim * cols / rows;
+			xOffset += (height - width) / 2;
+		} else {
+			width = dim;
+			height = dim * rows / cols;
+			yOffset += (width - height) / 2;
+		}
+
+		int cellWidth = width / cols, cellHeight = height / rows;
+		
+		// pack up everything we've calculated to pass into drawing methods
+		var metrics = new CellMetrics(xOffset, yOffset, cellWidth, cellHeight);
+
+		for (var row : grid) {
+			for (var cell : row) {
+				cell.draw(g, metrics);
+			}
+		}
+		
+		for (var room : rooms.values()) {
+			if (!room.isNormalSpace()) {
+				room.drawLabel(g, metrics);
+			}
+		}
+		
+		for (var player : allPlayers()) {
+			player.draw(g, metrics);
+		}
 	}
 
 	// getters

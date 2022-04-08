@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
@@ -72,7 +73,13 @@ public abstract class Player {
 	public Color getAccentColor() {
 		var hsbComponents = Color.RGBtoHSB(getColor().getRed(), getColor().getGreen(), getColor().getBlue(),
 				null);
-		return Color.getHSBColor(hsbComponents[0], hsbComponents[1] * 0.4f, (float) Math.sqrt(hsbComponents[2]));
+		return Color.getHSBColor(hsbComponents[0], hsbComponents[1] * 0.4f, 0.6f + hsbComponents[2] * 0.4f
+				);
 		
+	}
+	
+	public void draw(Graphics g, CellMetrics m) {
+		g.setColor(color);
+		g.fillOval(m.xOffset() + m.cellWidth() * column, m.yOffset() + m.cellHeight() * row, m.cellWidth(), m.cellHeight());
 	}
 }

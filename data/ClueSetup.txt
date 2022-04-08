@@ -1,13 +1,13 @@
 // Rooms and room cards
-Room, Kitchen Arena, K
-Room, Green Room, G
-Room, Apartment, A
-Room, Studio, S
-Room, Warehouse, H
-Room, Test Kitchen, T
-Room, Rec Room, R
-Room, VIP Lounge, V
-Room, Battle Zone, B
+Room, Kitchen Arena, K, 5
+Room, Green Room, G, 3
+Room, Apartment, A, 3
+Room, Studio, S, 2
+Room, Warehouse, H, 3
+Room, Test Kitchen, T, 3
+Room, Rec Room, R, 3
+Room, VIP Lounge, V, 2
+Room, Battle Zone, B, 3
 
 // other spaces on board
 Space, Unused, X
@@ -15,12 +15,12 @@ Space, Walkway, W
 
 // first player is the human, rest are computers
 // TODO figure out actual starting locations, they are all placeholders right now
-Player, Cocoa Ramsey, 1f4d6f, 4, 2
-Player, Marcon, 141436, 3, 5
-Player, MessBot7337, dd5555, 0, 0
-Player, Leviathan Sami, f69b6e, 0, 0
-Player, Greto Sleewa, d6d0d2, 0, 0
-Player, Professor Norstar, aecad6, 0, 0
+Player, Cocoa Ramsey, 1f4d6f, 19, 19
+Player, Marcon, 141436, 20, 6
+Player, MessBot7337, dd5555, 12, 4
+Player, Leviathan Sami, f69b6e, 8, 16
+Player, Greto Sleewa, d6d0d2, 6, 6
+Player, Professor Norstar, aecad6, 4, 21
 
 // players and rooms are already specified, just need weapons
 Weapon, Immersion Blender

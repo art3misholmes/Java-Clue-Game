@@ -1,10 +1,34 @@
 package clueGame;
 
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Color;
+
 public class Room {
 	private String name;
 	private boolean isNormalSpace;
 	private BoardCell labelCell, centerCell;
 	private Card card;
+	private int labelWidth;
+
+	public int getLabelWidth() {
+		return labelWidth;
+	}
+
+	public void drawLabel(Graphics g, CellMetrics m) {
+		g.setColor(Color.WHITE);
+		var fontSize = 30;
+		do {
+			g.setFont(new Font(Font.SERIF, Font.BOLD, fontSize));
+			fontSize--;
+		} while (g.getFontMetrics().stringWidth(name) > m.cellWidth() * labelWidth);
+		g.drawString(name, m.xOffset() + m.cellWidth() * labelCell.getColumn() + m.cellWidth() / 2,
+				m.yOffset() + m.cellWidth() * labelCell.getRow());
+	}
+
+	public void setLabelWidth(int labelWidth) {
+		this.labelWidth = labelWidth;
+	}
 
 	public Room(String name, boolean isNormalSpace) {
 		this.name = name;

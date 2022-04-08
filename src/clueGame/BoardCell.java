@@ -1,5 +1,8 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +20,48 @@ public class BoardCell {
 
 	public void addAdjacency(BoardCell cell) {
 		adjList.add(cell);
+	}
+
+	private static final int DOOR_THICKNESS = 4;
+
+	public void draw(Graphics g, CellMetrics m) {
+		var board = Board.getInstance();
+		var room = board.getRoom(this);
+
+		if (room.isNormalSpace()) {
+			switch (room.getName()) {
+			case "Unused" -> {
+				// don't need to draw over the background
+			}
+			case "Walkway" -> {
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect(m.xOffset() + m.cellWidth() * column + 1, m.yOffset() + m.cellHeight() * row + 1, m.cellWidth() - 2,
+						m.cellHeight() - 2);
+			}
+			}
+		} else {
+			// cell is part of a room
+			g.setColor(Color.DARK_GRAY);
+			g.fillRect(m.xOffset() + m.cellWidth() * column, m.yOffset() + m.cellHeight() * row, m.cellWidth(), m.cellHeight());
+
+			// is there a door into this space?
+			g.setColor(Color.WHITE);
+			if (row > 0 && board.getCell(row - 1, column).doorDirection == DoorDirection.DOWN) {
+				g.fillRect(m.xOffset() + m.cellWidth() * column, m.yOffset() + m.cellHeight() * row, m.cellWidth(), DOOR_THICKNESS);
+			}
+			if (row < board.getNumRows() - 1 && board.getCell(row + 1, column).doorDirection == DoorDirection.UP) {
+				g.fillRect(m.xOffset() + m.cellWidth() * column, m.yOffset() + m.cellHeight() * row + m.cellHeight() - DOOR_THICKNESS,
+						m.cellWidth(), DOOR_THICKNESS);
+			}
+			if (column > 0 && board.getCell(row, column - 1).doorDirection == DoorDirection.RIGHT) {
+				g.fillRect(m.xOffset() + m.cellWidth() * column, m.yOffset() + m.cellHeight() * row, DOOR_THICKNESS, m.cellHeight());
+			}
+			if (column < board.getNumColumns() - 1
+					&& board.getCell(row, column + 1).doorDirection == DoorDirection.LEFT) {
+				g.fillRect(m.xOffset() + m.cellWidth() * column + m.cellWidth() - DOOR_THICKNESS, m.yOffset() + m.cellHeight() * row,
+						DOOR_THICKNESS, m.cellHeight());
+			}
+		}
 	}
 
 	// getters

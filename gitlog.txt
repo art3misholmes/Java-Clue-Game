@@ -1,3 +1,45 @@
+commit f389f3514597b428088883b5406e611cbc565198
+Author: Kai Page <kpage1@mines.edu>
+Date:   Thu Apr 7 17:47:58 2022 -0600
+
+    Finished layout for KnownCardsPanel
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 59a2d928a82c397e4080c0f5e65be4ac54e20278
+Author: Kai Page <kpage1@mines.edu>
+Date:   Wed Apr 6 16:51:15 2022 -0600
+
+    Created stub of KnownCardsPanel
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 2f3bea8678c63267852aa81e0e798fa69fa4e051
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Wed Apr 6 16:30:11 2022 -0600
+
+    finished setGues, setTurn, and setGuessResult
+
+commit afc3709314ce0099f8f7396660f97c7bc7aa84c5
+Author: Kai Page <kpage1@mines.edu>
+Date:   Wed Apr 6 16:13:17 2022 -0600
+
+    Finished control panel layout
+
+commit 41a9eb5d14f9f396684524168cc1c251a113520e
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Mon Apr 4 16:43:16 2022 -0600
+
+    created roll panel
+
+commit e1b46d34b89989e8b547519e9bd2f4f1b5090927
+Author: Kai Page <kpage1@mines.edu>
+Date:   Mon Apr 4 16:31:59 2022 -0600
+
+    Top-left of the control panel
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
 commit 538b803dfde5aaf325c7e56bdf9ebcd143f7acbe
 Author: Kai Page <kpage1@mines.edu>
 Date:   Sun Apr 3 16:28:18 2022 -0600
