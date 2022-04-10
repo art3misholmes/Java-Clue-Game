@@ -86,50 +86,54 @@ public class Board extends JPanel {
 			// move when movementTargets isn't null
 
 			if (movementTargets != null) {
-	
-				//subtra y off from click/hight
+
+				// subtra y off from click/hight
 				var cellM = getCellMetrics();
-				
-				var clickRow = ( e.getY() - cellM.yOffset())/cellM.cellHeight();
-				//same for x
-				var clickColum = (e.getX() - cellM.xOffset())/cellM.cellWidth();
-				
+
+				var clickRow = (e.getY() - cellM.yOffset()) / cellM.cellHeight();
+				// same for x
+				var clickColum = (e.getX() - cellM.xOffset()) / cellM.cellWidth();
+
 				var targetCell = getCell(clickRow, clickColum);
-				
-				if(targetCell.isRoom()) {
+
+				if (targetCell.isRoom()) {
 					targetCell = cellRooms.get(targetCell).getCenterCell();
 				}
-				
-				//if spot at clickRow x clickColum is contained within movment targets
-				if(movementTargets.contains(targetCell)) {
-					//move player
-					movePlayer(humanPlayer,targetCell.getRow(), targetCell.getColumn());
-					
-					//is new spot room?
-						//hand sugestion
-							//update result
-					
+
+				// if spot at clickRow x clickColum is contained within movment targets
+				if (movementTargets.contains(targetCell)) {
+					// move player
+					movePlayer(humanPlayer, targetCell.getRow(), targetCell.getColumn());
+
+					// is new spot room?
+					// hand sugestion
+					// update result
+
 					movementTargets = null;
 					repaint();
-				}else {
+				} else {
 					JOptionPane.showMessageDialog(Board.getInstance(), "Not a valid target.");
 				}
-				
+
 			}
 
 		}
 
 		@Override
-		public void mousePressed(MouseEvent e) {}
+		public void mousePressed(MouseEvent e) {
+		}
 
 		@Override
-		public void mouseReleased(MouseEvent e) {}
+		public void mouseReleased(MouseEvent e) {
+		}
 
 		@Override
-		public void mouseEntered(MouseEvent e) {}
+		public void mouseEntered(MouseEvent e) {
+		}
 
 		@Override
-		public void mouseExited(MouseEvent e) {}
+		public void mouseExited(MouseEvent e) {
+		}
 
 	}
 
@@ -138,13 +142,22 @@ public class Board extends JPanel {
 		try {
 			loadSetupConfig();
 			loadLayoutConfig();
-			deal();
 		} catch (BadConfigFormatException e) {
 			throw new RuntimeException(e);
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
 
+		// the 306 configs do not have players, abort if that is the case
+		if (humanPlayer == null) {
+			return;
+		}
+		
+		for (var player : allPlayers()) {
+			getCell(player.getRow(), player.getColumn()).setOccupied(true);
+		}
+
+		deal();
 		startHumanTurn(-1);
 	}
 
@@ -506,7 +519,7 @@ public class Board extends JPanel {
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		// pack up everything we've calculated to pass into drawing methods
-		var metrics =getCellMetrics();
+		var metrics = getCellMetrics();
 
 		for (var row : grid) {
 			for (var cell : row) {
@@ -521,8 +534,24 @@ public class Board extends JPanel {
 			}
 		}
 
-		for (var player : allPlayers()) {
-			player.draw(g, metrics);
+		// figure out if any players are overlapping
+		var players = allPlayers();
+		var playerLocations = new HashMap<BoardCell, ArrayList<Player>>();
+		for (var player : players) {
+			var cell = getCell(player.getRow(), player.getColumn());
+			if (playerLocations.containsKey(cell)) {
+				playerLocations.get(cell).add(player);
+			} else {
+				var list = new ArrayList<Player>();
+				list.add(player);
+				playerLocations.put(cell, list);
+			}
+		}
+
+		for (var player : players) {
+			var offset = metrics.cellWidth()
+					* playerLocations.get(getCell(player.getRow(), player.getColumn())).indexOf(player) / 4;
+			player.draw(g, metrics, offset);
 		}
 	}
 
@@ -561,8 +590,10 @@ public class Board extends JPanel {
 	}
 
 	private void movePlayer(Player p, int newRow, int newColumn) {
+		getCell(p.getRow(), p.getColumn()).setOccupied(false);
 		p.setRow(newRow);
 		p.setColumn(newColumn);
+		getCell(newRow, newColumn).setOccupied(true);
 	}
 
 	// getters

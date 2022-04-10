@@ -78,9 +78,9 @@ public abstract class Player {
 		
 	}
 	
-	public void draw(Graphics g, CellMetrics m) {
+	public void draw(Graphics g, CellMetrics m, int offset) {
 		g.setColor(color);
-		g.fillOval(m.xOffset() + m.cellWidth() * column, m.yOffset() + m.cellHeight() * row, m.cellWidth(), m.cellHeight());
+		g.fillOval(m.xOffset() + m.cellWidth() * column + offset, m.yOffset() + m.cellHeight() * row, m.cellWidth(), m.cellHeight());
 	}
 	
 	public void setRow(int row) {
