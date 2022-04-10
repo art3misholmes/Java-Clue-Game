@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -74,6 +76,61 @@ public class Board extends JPanel {
 
 	// part of singleton
 	private Board() {
+		addMouseListener(new BoardMouseListener());
+	}
+
+	private class BoardMouseListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// move when movementTargets isn't null
+
+			if (movementTargets != null) {
+	
+				//subtra y off from click/hight
+				var cellM = getCellMetrics();
+				
+				var clickRow = ( e.getY() - cellM.yOffset())/cellM.cellHeight();
+				//same for x
+				var clickColum = (e.getX() - cellM.xOffset())/cellM.cellWidth();
+				
+				var targetCell = getCell(clickRow, clickColum);
+				
+				if(targetCell.isRoom()) {
+					targetCell = cellRooms.get(targetCell).getCenterCell();
+				}
+				
+				//if spot at clickRow x clickColum is contained within movment targets
+				if(movementTargets.contains(targetCell)) {
+					//move player
+					movePlayer(humanPlayer,targetCell.getRow(), targetCell.getColumn());
+					
+					//is new spot room?
+						//hand sugestion
+							//update result
+					
+					movementTargets = null;
+					repaint();
+				}else {
+					JOptionPane.showMessageDialog(Board.getInstance(), "Not a valid target.");
+				}
+				
+			}
+
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {}
+
+		@Override
+		public void mouseExited(MouseEvent e) {}
+
 	}
 
 	// sets up the board
@@ -448,32 +505,8 @@ public class Board extends JPanel {
 		g.setColor(new Color(10, 172, 58));
 		g.fillRect(0, 0, getWidth(), getHeight());
 
-		// get a square to paint in
-		int dim, xOffset = 0, yOffset = 0;
-		if (getWidth() < getHeight()) {
-			dim = getWidth();
-			yOffset = (getHeight() - getWidth()) / 2;
-		} else {
-			dim = getHeight();
-			xOffset = (getWidth() - getHeight()) / 2;
-		}
-
-		// shrink to the game board's aspect ratio
-		int width, height;
-		if (cols < rows) {
-			height = dim;
-			width = dim * cols / rows;
-			xOffset += (height - width) / 2;
-		} else {
-			width = dim;
-			height = dim * rows / cols;
-			yOffset += (width - height) / 2;
-		}
-
-		int cellWidth = width / cols, cellHeight = height / rows;
-
 		// pack up everything we've calculated to pass into drawing methods
-		var metrics = new CellMetrics(xOffset, yOffset, cellWidth, cellHeight);
+		var metrics =getCellMetrics();
 
 		for (var row : grid) {
 			for (var cell : row) {
@@ -588,4 +621,32 @@ public class Board extends JPanel {
 		setupFile = "data/" + setup;
 	}
 
+	public CellMetrics getCellMetrics() {
+		// get a square to paint in
+		int dim, xOffset = 0, yOffset = 0;
+		if (getWidth() < getHeight()) {
+			dim = getWidth();
+			yOffset = (getHeight() - getWidth()) / 2;
+		} else {
+			dim = getHeight();
+			xOffset = (getWidth() - getHeight()) / 2;
+		}
+
+		// shrink to the game board's aspect ratio
+		int width, height;
+		if (cols < rows) {
+			height = dim;
+			width = dim * cols / rows;
+			xOffset += (height - width) / 2;
+		} else {
+			width = dim;
+			height = dim * rows / cols;
+			yOffset += (width - height) / 2;
+		}
+
+		int cellWidth = width / cols, cellHeight = height / rows;
+
+		return new CellMetrics(xOffset, yOffset, cellWidth, cellHeight);
+
+	}
 }

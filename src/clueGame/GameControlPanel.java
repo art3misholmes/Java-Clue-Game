@@ -115,9 +115,7 @@ public class GameControlPanel extends JPanel {
 		panel.setGuessResult("So you have nothing?");
 	}
 	
-	//click next button
-	
-	//clicking on game board
+
 	
 	
 }
