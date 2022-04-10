@@ -10,18 +10,19 @@ public class ClueGame extends JFrame {
 
 	public ClueGame() {
 		var board = Board.getInstance();
-		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
-		board.initialize();
 		add(board, BorderLayout.CENTER);
 
 		var controlPanel = new GameControlPanel();
-		// controlPanel.setSize(750, 180);
 		add(controlPanel, BorderLayout.SOUTH);
-
+		board.setControlPanel(controlPanel);
+		
+		board.setConfigFiles("ClueLayout.csv", "ClueSetup.txt");
+		board.initialize();
+		
 		var cardsPanel = new KnownCardsPanel(board.getHumanPlayer());
-		// cardsPanel.setSize(180, 700);
-		cardsPanel.update();
 		add(cardsPanel, BorderLayout.EAST);
+		board.setCardsPanel(cardsPanel);
+		cardsPanel.update();
 	}
 
 	public static void main(String[] args) {

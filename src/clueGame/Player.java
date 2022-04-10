@@ -32,7 +32,7 @@ public abstract class Player {
 		// we see all the cards in our hand
 		seen.addCard(card);
 	}
-	
+
 	public void updateSeen(Card card) {
 		seen.addCard(card);
 	}
@@ -81,5 +81,13 @@ public abstract class Player {
 	public void draw(Graphics g, CellMetrics m) {
 		g.setColor(color);
 		g.fillOval(m.xOffset() + m.cellWidth() * column, m.yOffset() + m.cellHeight() * row, m.cellWidth(), m.cellHeight());
+	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	public void setColumn(int column) {
+		this.column = column;
 	}
 }

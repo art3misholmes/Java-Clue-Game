@@ -10,11 +10,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -44,6 +46,30 @@ public class Board extends JPanel {
 	private HumanPlayer humanPlayer;
 	private ArrayList<ComputerPlayer> computerPlayers;
 
+	// 0 is always the human player
+	private static final int HUMAN_PLAYER_TURN_INDEX = 0;
+	private int currentTurnIndex = 0;
+	private Set<BoardCell> movementTargets;
+
+	private GameControlPanel controlPanel;
+	private KnownCardsPanel cardsPanel;
+
+	public GameControlPanel getControlPanel() {
+		return controlPanel;
+	}
+
+	public void setControlPanel(GameControlPanel controlPanel) {
+		this.controlPanel = controlPanel;
+	}
+
+	public KnownCardsPanel getCardsPanel() {
+		return cardsPanel;
+	}
+
+	public void setCardsPanel(KnownCardsPanel cardsPanel) {
+		this.cardsPanel = cardsPanel;
+	}
+
 	private static Board instance = new Board(); // singleton
 
 	// part of singleton
@@ -61,6 +87,8 @@ public class Board extends JPanel {
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
+
+		startHumanTurn(-1);
 	}
 
 	/**
@@ -210,9 +238,11 @@ public class Board extends JPanel {
 					var room = new Room(split[1], isNormalSpace);
 					rooms.put(split[2].charAt(0), room);
 					if (!isNormalSpace) {
-						deck.addCard(new Card(Card.Type.ROOM, split[1]));
+						var card = new Card(Card.Type.ROOM, split[1]);
+						deck.addCard(card);
+						room.setCard(card);
 					}
-					
+
 					// fourth item in our setup is width of the label
 					if (split.length > 3) {
 						room.setLabelWidth(Integer.parseInt(split[3]));
@@ -413,7 +443,7 @@ public class Board extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
+
 		// clear the screen
 		g.setColor(new Color(10, 172, 58));
 		g.fillRect(0, 0, getWidth(), getHeight());
@@ -441,25 +471,65 @@ public class Board extends JPanel {
 		}
 
 		int cellWidth = width / cols, cellHeight = height / rows;
-		
+
 		// pack up everything we've calculated to pass into drawing methods
 		var metrics = new CellMetrics(xOffset, yOffset, cellWidth, cellHeight);
 
 		for (var row : grid) {
 			for (var cell : row) {
-				cell.draw(g, metrics);
+				cell.draw(g, metrics, movementTargets != null && (movementTargets.contains(cell)
+						|| cell.isRoom() && movementTargets.contains(cellRooms.get(cell).getCenterCell())));
 			}
 		}
-		
+
 		for (var room : rooms.values()) {
 			if (!room.isNormalSpace()) {
 				room.drawLabel(g, metrics);
 			}
 		}
-		
+
 		for (var player : allPlayers()) {
 			player.draw(g, metrics);
 		}
+	}
+
+	private Random rand = new Random();
+
+	public void nextButtonClicked() {
+		if (movementTargets != null) {
+			JOptionPane.showMessageDialog(this, "You need to move!");
+		} else {
+			currentTurnIndex = (currentTurnIndex + 1) % (computerPlayers.size() + 1);
+			var roll = rand.nextInt(6) + 1;
+			if (currentTurnIndex == HUMAN_PLAYER_TURN_INDEX) {
+				startHumanTurn(roll);
+			} else {
+				var currentPlayer = computerPlayers.get(currentTurnIndex - 1);
+				// TODO maybe make an accusation
+				// TODO maybe make a suggestion if we were dragged into a room
+				var targets = getTargets(getCell(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
+				var targetCell = currentPlayer.selectTarget(targets, cellRooms);
+				movePlayer(currentPlayer, targetCell.getRow(), targetCell.getColumn());
+				// TODO maybe make a suggestion after moving
+			}
+			repaint();
+		}
+	}
+
+	private void startHumanTurn(int roll) {
+		if (roll < 1) {
+			roll = rand.nextInt(6) + 1;
+		}
+		movementTargets = getTargets(getCell(humanPlayer.getRow(), humanPlayer.getColumn()), roll);
+		if (movementTargets.isEmpty()) {
+			movementTargets = null;
+		}
+		controlPanel.setTurn(humanPlayer, roll);
+	}
+
+	private void movePlayer(Player p, int newRow, int newColumn) {
+		p.setRow(newRow);
+		p.setColumn(newColumn);
 	}
 
 	// getters

@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -53,6 +54,7 @@ public class GameControlPanel extends JPanel {
 		// next button
 		var nextButton = new JButton("NEXT!");
 		topRow.add(nextButton);
+		nextButton.addActionListener(this::nextButtonClicked);
 
 		/* bottom row */
 		var bottomRow = new JPanel(new GridLayout(1, 2));
@@ -88,7 +90,10 @@ public class GameControlPanel extends JPanel {
 
 	public void setGuessResult(String result) {
 		resultField.setText(result);
-
+	}
+	
+	private void nextButtonClicked(ActionEvent e) {
+		Board.getInstance().nextButtonClicked();
 	}
 
 	/**

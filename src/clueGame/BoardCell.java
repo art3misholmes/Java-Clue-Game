@@ -23,8 +23,13 @@ public class BoardCell {
 	}
 
 	private static final int DOOR_THICKNESS = 4;
+	
+	private static final Color WALKWAY_COLOR = Color.LIGHT_GRAY;
+	private static final Color ROOM_COLOR = Color.DARK_GRAY;
+	private static final Color DOOR_COLOR = Color.WHITE;
+	private static final Color TARGET_COLOR = Color.CYAN;
 
-	public void draw(Graphics g, CellMetrics m) {
+	public void draw(Graphics g, CellMetrics m, boolean isTarget) {
 		var board = Board.getInstance();
 		var room = board.getRoom(this);
 
@@ -34,18 +39,18 @@ public class BoardCell {
 				// don't need to draw over the background
 			}
 			case "Walkway" -> {
-				g.setColor(Color.LIGHT_GRAY);
+				g.setColor(isTarget ? TARGET_COLOR : WALKWAY_COLOR);
 				g.fillRect(m.xOffset() + m.cellWidth() * column + 1, m.yOffset() + m.cellHeight() * row + 1, m.cellWidth() - 2,
 						m.cellHeight() - 2);
 			}
 			}
 		} else {
 			// cell is part of a room
-			g.setColor(Color.DARK_GRAY);
+			g.setColor(isTarget ? TARGET_COLOR : ROOM_COLOR);
 			g.fillRect(m.xOffset() + m.cellWidth() * column, m.yOffset() + m.cellHeight() * row, m.cellWidth(), m.cellHeight());
 
 			// is there a door into this space?
-			g.setColor(Color.WHITE);
+			g.setColor(DOOR_COLOR);
 			if (row > 0 && board.getCell(row - 1, column).doorDirection == DoorDirection.DOWN) {
 				g.fillRect(m.xOffset() + m.cellWidth() * column, m.yOffset() + m.cellHeight() * row, m.cellWidth(), DOOR_THICKNESS);
 			}
