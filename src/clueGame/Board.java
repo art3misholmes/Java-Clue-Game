@@ -415,7 +415,7 @@ public class Board extends JPanel {
 		super.paintComponent(g);
 		
 		// clear the screen
-		g.setColor(new Color(127, 255, 127));
+		g.setColor(new Color(10, 172, 58));
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		// get a square to paint in
