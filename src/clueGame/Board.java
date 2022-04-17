@@ -31,18 +31,18 @@ import javax.swing.JPanel;
 public class Board extends JPanel {
 	private static final long serialVersionUID = 1L; // bluh
 
-	private ArrayList<ArrayList<BoardCell>> grid; //all cells on board
+	private ArrayList<ArrayList<BoardCell>> grid; // all cells on board
 	private String layoutFile, setupFile;
 	private Map<Character, Room> rooms; // list of corresponding char to each room
 	private Map<BoardCell, Room> cellRooms; // the cells that make up a room
 	private int rows, cols;
 	@Deprecated()
-	private Set<BoardCell> targets; //list of potential targets
+	private Set<BoardCell> targets; // list of potential targets
 
 	/**
 	 * All the cards that exist, even after they have been dealt
 	 */
-	private CardCollection deck; 
+	private CardCollection deck;
 	private Solution solution;
 
 	private HumanPlayer humanPlayer;
@@ -51,31 +51,31 @@ public class Board extends JPanel {
 	// 0 is always the human player
 	private static final int HUMAN_PLAYER_TURN_INDEX = 0;
 	private int currentTurnIndex = 0;
-	
+
 	/**
 	 * targets for the human player to move if it is not null
 	 */
-	private Set<BoardCell> movementTargets; 
+	private Set<BoardCell> movementTargets;
 
-	private GameControlPanel controlPanel; //displays current turn info
-	private KnownCardsPanel cardsPanel; //displays known cards
+	private GameControlPanel controlPanel; // displays current turn info
+	private KnownCardsPanel cardsPanel; // displays known cards
 
-	//getters
+	// getters
 	public GameControlPanel getControlPanel() {
 		return controlPanel;
 	}
-	
-	//setter
+
+	// setter
 	public void setControlPanel(GameControlPanel controlPanel) {
 		this.controlPanel = controlPanel;
 	}
-	
-	//getter
+
+	// getter
 	public KnownCardsPanel getCardsPanel() {
 		return cardsPanel;
 	}
 
-	//setter
+	// setter
 	public void setCardsPanel(KnownCardsPanel cardsPanel) {
 		this.cardsPanel = cardsPanel;
 	}
@@ -87,7 +87,7 @@ public class Board extends JPanel {
 		addMouseListener(new BoardMouseListener());
 	}
 
-	//mouse events handled here 
+	// mouse events handled here
 	private class BoardMouseListener implements MouseListener {
 
 		@Override
@@ -161,13 +161,17 @@ public class Board extends JPanel {
 		if (humanPlayer == null) {
 			return;
 		}
-		
+
 		for (var player : allPlayers()) {
 			getCell(player.getRow(), player.getColumn()).setOccupied(true);
 		}
 
 		deal();
-		startHumanTurn();
+
+		// the tests do not set a control panel, don't bother with turns in tests
+		if (controlPanel != null) {
+			startHumanTurn();
+		}
 	}
 
 	/**
@@ -183,47 +187,27 @@ public class Board extends JPanel {
 		for (var p : players) {
 			p.getHand().clear();
 		}
-		
+
 		var cardStack = deck.getCards().stream().collect(Collectors.toList()); // cards to be dealt
-		Collections.shuffle(cardStack); //randomizes cards
-		
-		Card room = null, person = null, weapon = null;
+		Collections.shuffle(cardStack); // randomizes cards
+
+		var tentativeSolution = new CardCollection();
 		var dealToNext = 0;
 
 		for (int i = 0; i < cardStack.size(); i++) {
 			var card = cardStack.get(i);
 
-			// switch expression: yield true if the card should be dealt to a player
-			if (switch (card.type()) {
-			case ROOM -> {
-				if (room == null) {
-					room = card;
-					yield false;
-				}
-				yield true;
-			}
-			case PERSON -> {
-				if (person == null) {
-					person = card;
-					yield false;
-				}
-				yield true;
-			}
-			case WEAPON -> {
-				if (weapon == null) {
-					weapon = card;
-					yield false;
-				}
-				yield true;
-			}
-			}) {
+			if (tentativeSolution.getCardsOfType(card.type()).isEmpty()) {
+				tentativeSolution.addCard(card);
+			} else {
 				// card was not part of the solution, deal it to a player
 				players.get(dealToNext).updateHand(card);
 				dealToNext = (dealToNext + 1) % players.size();
 			}
 		}
 
-		solution = new Solution(room, person, weapon);
+		solution = new Solution(tentativeSolution.getRoomCards().first(), tentativeSolution.getPersonCards().first(),
+				tentativeSolution.getWeaponCards().first());
 	}
 
 	/**
@@ -250,7 +234,7 @@ public class Board extends JPanel {
 		return targets;
 	}
 
-	//implements calculating targets
+	// implements calculating targets
 	private void calcTargets(BoardCell startCell, int pathLength, Set<BoardCell> targets, Set<BoardCell> visited) {
 		visited.add(startCell);
 		for (var cell : startCell.getAdjList()) {
@@ -265,12 +249,12 @@ public class Board extends JPanel {
 		visited.remove(startCell);
 	}
 
-	//checks to see if accusation is correct
+	// checks to see if accusation is correct
 	public boolean checkAccusation(Solution accusation) {
 		return accusation.equals(solution);
 	}
 
-	//checks for refutation 
+	// checks for refutation
 	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer) {
 		var players = allPlayers();
 		var suggestingIndex = players.indexOf(suggestingPlayer);
@@ -495,7 +479,7 @@ public class Board extends JPanel {
 			}
 		}
 	}
-	
+
 	private boolean cellIsWalkway(BoardCell cell) {
 		return getRoom(cell).getName().equals("Walkway");
 	}
@@ -591,7 +575,7 @@ public class Board extends JPanel {
 			repaint();
 		}
 	}
-	
+
 	/**
 	 * Rolls the die and assigns movement targets to the human player
 	 */

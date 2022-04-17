@@ -15,6 +15,7 @@ public class CardCollection {
 	public void addCard(Card card) {
 		cards.add(card);
 	}
+
 	public boolean contains(Card card) {
 		return cards.contains(card);
 	}
@@ -25,6 +26,14 @@ public class CardCollection {
 
 	public SortedSet<Card> getCards() {
 		return cards;
+	}
+
+	public SortedSet<Card> getCardsOfType(Card.Type type) {
+		return switch (type) {
+		case PERSON -> getPersonCards();
+		case WEAPON -> getWeaponCards();
+		case ROOM -> getRoomCards();
+		};
 	}
 
 	// order is person < weapon < room
