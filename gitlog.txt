@@ -1,3 +1,43 @@
+commit 616157d5be07c73f77e112e22b4c3fc7c9e5cdb1
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Apr 10 10:27:35 2022 -0600
+
+    Fixed bugs with occupying the same space
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
+commit 260cbb00c7001c012303fe37ec19c7cd4ce71634
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Apr 10 10:14:07 2022 -0600
+
+    made mouseClicked and found how it interacts with board
+
+commit aa90c4404a6139f59d046edd54b57bebdced0e5f
+Author: Kai Page <kpage1@mines.edu>
+Date:   Sun Apr 10 09:14:17 2022 -0600
+
+    Added functionality to next button, including target highlighting
+
+commit ab95d2c554d6437c8a53715e10a80909c9e88041
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Apr 10 08:25:04 2022 -0600
+
+    made splash screen
+
+commit 1c9af796aeabf7922e4e0ccd22f4e3793a69a7ce
+Author: Kelsi Wood <kwood1@mines.edu>
+Date:   Sun Apr 10 08:08:14 2022 -0600
+
+    updates some colors for graphics
+
+commit 4840e2ffb394013ab3dfd690d42353cc89fa0590
+Author: Kai Page <kpage1@mines.edu>
+Date:   Fri Apr 8 17:57:37 2022 -0600
+
+    Implemented drawing functions for Board, BoardCell, Room, and Player
+    
+    Co-authored-by: Kelsi Wood <kwood1@mines.edu>
+
 commit f389f3514597b428088883b5406e611cbc565198
 Author: Kai Page <kpage1@mines.edu>
 Date:   Thu Apr 7 17:47:58 2022 -0600

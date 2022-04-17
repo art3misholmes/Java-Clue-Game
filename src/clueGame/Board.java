@@ -158,7 +158,7 @@ public class Board extends JPanel {
 		}
 
 		deal();
-		startHumanTurn(-1);
+		startHumanTurn();
 	}
 
 	/**
@@ -562,13 +562,12 @@ public class Board extends JPanel {
 			JOptionPane.showMessageDialog(this, "You need to move!");
 		} else {
 			currentTurnIndex = (currentTurnIndex + 1) % (computerPlayers.size() + 1);
-			var roll = rand.nextInt(6) + 1;
 			if (currentTurnIndex == HUMAN_PLAYER_TURN_INDEX) {
-				startHumanTurn(roll);
+				startHumanTurn();
 			} else {
+				var roll = rand.nextInt(6) + 1;
 				var currentPlayer = computerPlayers.get(currentTurnIndex - 1);
 				// TODO maybe make an accusation
-				// TODO maybe make a suggestion if we were dragged into a room
 				var targets = getTargets(getCell(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
 				var targetCell = currentPlayer.selectTarget(targets, cellRooms);
 				movePlayer(currentPlayer, targetCell.getRow(), targetCell.getColumn());
@@ -577,11 +576,12 @@ public class Board extends JPanel {
 			repaint();
 		}
 	}
-
-	private void startHumanTurn(int roll) {
-		if (roll < 1) {
-			roll = rand.nextInt(6) + 1;
-		}
+	
+	/**
+	 * Rolls the die and assigns movement targets to the human player
+	 */
+	private void startHumanTurn() {
+		var roll = rand.nextInt(6) + 1;
 		movementTargets = getTargets(getCell(humanPlayer.getRow(), humanPlayer.getColumn()), roll);
 		if (movementTargets.isEmpty()) {
 			movementTargets = null;
