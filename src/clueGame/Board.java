@@ -572,6 +572,7 @@ public class Board extends JPanel {
 				var targetCell = currentPlayer.selectTarget(targets, cellRooms);
 				movePlayer(currentPlayer, targetCell.getRow(), targetCell.getColumn());
 				// TODO maybe make a suggestion after moving
+				controlPanel.setTurn(currentPlayer, roll);
 			}
 			repaint();
 		}
