@@ -88,7 +88,7 @@ public class Board extends JPanel {
 			if (movementTargets != null) {
 
 				// subtra y off from click/hight
-				var cellM = getCellMetrics();
+				var cellM = CellMetrics.calculateMetrics(getWidth(), getHeight(), rows, cols);
 
 				var clickRow = (e.getY() - cellM.yOffset()) / cellM.cellHeight();
 				// same for x
@@ -519,7 +519,7 @@ public class Board extends JPanel {
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		// pack up everything we've calculated to pass into drawing methods
-		var metrics = getCellMetrics();
+		var metrics = CellMetrics.calculateMetrics(getWidth(), getHeight(), rows, cols);
 
 		for (var row : grid) {
 			for (var cell : row) {
@@ -651,34 +651,5 @@ public class Board extends JPanel {
 	public void setConfigFiles(String layout, String setup) {
 		layoutFile = "data/" + layout;
 		setupFile = "data/" + setup;
-	}
-
-	public CellMetrics getCellMetrics() {
-		// get a square to paint in
-		int dim, xOffset = 0, yOffset = 0;
-		if (getWidth() < getHeight()) {
-			dim = getWidth();
-			yOffset = (getHeight() - getWidth()) / 2;
-		} else {
-			dim = getHeight();
-			xOffset = (getWidth() - getHeight()) / 2;
-		}
-
-		// shrink to the game board's aspect ratio
-		int width, height;
-		if (cols < rows) {
-			height = dim;
-			width = dim * cols / rows;
-			xOffset += (height - width) / 2;
-		} else {
-			width = dim;
-			height = dim * rows / cols;
-			yOffset += (width - height) / 2;
-		}
-
-		int cellWidth = width / cols, cellHeight = height / rows;
-
-		return new CellMetrics(xOffset, yOffset, cellWidth, cellHeight);
-
 	}
 }
