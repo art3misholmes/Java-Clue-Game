@@ -46,6 +46,7 @@ public class GameControlPanel extends JPanel {
 		rollField = new JTextField();
 		rollPanel.add(rollField);
 		rollField.setEditable(false);
+		rollField.setBackground(Color.white);
 
 		// accusation button
 		var accusationButton = new JButton("Make Accusation");
