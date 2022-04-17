@@ -14,12 +14,14 @@ public abstract class Player {
 	private Color color;
 	private int row, column;
 
-	private CardCollection hand = new CardCollection(), seen = new CardCollection();
+	private CardCollection hand = new CardCollection(), seen = new CardCollection(); //Collection of cards that the player has
 
+	//getter
 	public CardCollection getSeen() {
 		return seen;
 	}
 
+	//sets player attributes
 	public Player(String name, Color color, int row, int column) {
 		this.name = name;
 		this.color = color;
@@ -27,16 +29,19 @@ public abstract class Player {
 		this.column = column;
 	}
 
+	//adds to seen cards and deals the cards to the player
 	public void updateHand(Card card) {
 		hand.addCard(card);
 		// we see all the cards in our hand
 		seen.addCard(card);
 	}
 
+	//sets/updates seen cards
 	public void updateSeen(Card card) {
 		seen.addCard(card);
 	}
 	
+	//disproves a suggestion
 	public Card disproveSuggestion(Solution suggestion) {
 		var listToDis = Stream.of(suggestion.room(), suggestion.person(), suggestion.weapon())
                 .filter(hand::contains)
@@ -49,7 +54,8 @@ public abstract class Player {
 		}
 
 	}
-
+	
+	//getters
 	public String getName() {
 		return name;
 	}
@@ -78,11 +84,13 @@ public abstract class Player {
 		
 	}
 	
+	//create graphics for player
 	public void draw(Graphics g, CellMetrics m, int offset) {
 		g.setColor(color);
 		g.fillOval(m.xOffset() + m.cellWidth() * column + offset, m.yOffset() + m.cellHeight() * row, m.cellWidth(), m.cellHeight());
 	}
 	
+	//setters
 	public void setRow(int row) {
 		this.row = row;
 	}
