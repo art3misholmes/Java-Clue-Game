@@ -68,6 +68,11 @@ public class BoardCell {
 			}
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("BoardCell[%d, %d]", row, column);
+	}
 
 	// getters
 	public int getRow() {

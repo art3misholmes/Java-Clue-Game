@@ -37,8 +37,8 @@ public class BoardAdjTargetTest {
 		assertSetContents(testList, board.getCell(10, 3));
 
 		// from a room to a door where there is also a secret passage
-		testList = board.getAdjList(23, 20);
-		assertSetContents(testList, board.getCell(23, 17), board.getCell(20, 19), board.getCell(2, 20));
+		testList = board.getAdjList(24, 20);
+		assertSetContents(testList, board.getCell(23, 17), board.getCell(20, 19), board.getCell(1, 21));
 
 		// from a room to a door
 		testList = board.getAdjList(19, 3);
@@ -78,11 +78,11 @@ public class BoardAdjTargetTest {
 
 		// test a roll of 3
 		targets = board.getTargets(board.getCell(9, 20), 3);
-		assertSetContents(targets, 10, board.getCell(12, 18), board.getCell(5, 22), board.getCell(2, 20));
+		assertSetContents(targets, 9, board.getCell(12, 18), board.getCell(1, 21), board.getCell(8, 18));
 
 		// test a roll of 4
 		targets = board.getTargets(board.getCell(9, 20), 4);
-		assertSetContents(targets, 18, board.getCell(11, 16), board.getCell(4, 20), board.getCell(2, 20));
+		assertSetContents(targets, 17, board.getCell(11, 16), board.getCell(4, 20), board.getCell(8, 17));
 	}
 
 	// Tests using or not using the secret passage when rolling a 1 or 2
@@ -90,13 +90,13 @@ public class BoardAdjTargetTest {
 	@Test
 	public void testTargetsInRecRoom() {
 		// test a roll of 1
-		Set<BoardCell> targets = board.getTargets(board.getCell(2, 20), 1);
-		assertSetContents(targets, board.getCell(4, 20), board.getCell(23, 20));
+		Set<BoardCell> targets = board.getTargets(board.getCell(1, 21), 1);
+		assertSetContents(targets, board.getCell(4, 20), board.getCell(24, 20));
 
 		// test a roll of 2
-		targets = board.getTargets(board.getCell(2, 20), 2);
-		assertSetContents(targets, board.getCell(4, 19), board.getCell(5, 20), board.getCell(4, 21),
-				board.getCell(23, 20));
+		targets = board.getTargets(board.getCell(1, 21), 2);
+		assertSetContents(targets, board.getCell(4, 19), board.getCell(5, 20),
+				board.getCell(24, 20));
 	}
 
 	@Test
@@ -108,11 +108,11 @@ public class BoardAdjTargetTest {
 
 		// test a roll of 3
 		targets = board.getTargets(board.getCell(10, 4), 3);
-		assertSetContents(targets, 14, board.getCell(7, 4), board.getCell(12, 5), board.getCell(10, 1));
+		assertSetContents(targets, 13, board.getCell(7, 4), board.getCell(12, 5), board.getCell(10, 1));
 
 		// test a roll of 4
 		targets = board.getTargets(board.getCell(10, 4), 4);
-		assertSetContents(targets, 18, board.getCell(6, 4), board.getCell(12, 6), board.getCell(10, 1));
+		assertSetContents(targets, 17, board.getCell(6, 4), board.getCell(12, 6), board.getCell(10, 1));
 	}
 
 	// Tests rolling a 1 at the board edge
@@ -143,12 +143,12 @@ public class BoardAdjTargetTest {
 		board.getCell(11, 3).setOccupied(true);
 		Set<BoardCell> targets = board.getTargets(board.getCell(12, 3), 1);
 		board.getCell(11, 3).setOccupied(false);
-		assertSetContents(targets, board.getCell(13, 3), board.getCell(12, 4));
+		assertSetContents(targets, board.getCell(13, 3));
 
 		board.getCell(9, 17).setOccupied(true);
 		targets = board.getTargets(board.getCell(9, 16), 1);
 		board.getCell(9, 17).setOccupied(false);
-		assertSetContents(targets, board.getCell(9, 15), board.getCell(8, 16), board.getCell(10, 16));
+		assertSetContents(targets, board.getCell(9, 15), board.getCell(10, 16));
 
 		// we want to make sure we can get into a room, even if flagged as occupied
 		board.getCell(2, 1).setOccupied(true);

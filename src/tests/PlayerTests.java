@@ -26,8 +26,8 @@ public class PlayerTests {
 		assertEquals(31, cocoa.getColor().getRed());
 		assertEquals(77, cocoa.getColor().getGreen());
 		assertEquals(111, cocoa.getColor().getBlue());
-		assertEquals(4, cocoa.getRow());
-		assertEquals(2, cocoa.getColumn());
+		assertEquals(19, cocoa.getRow());
+		assertEquals(19, cocoa.getColumn());
 
 		// marcon is an NPC
 		var marcon = board.getComputerPlayers().get(0);
@@ -35,7 +35,7 @@ public class PlayerTests {
 		assertEquals(20, marcon.getColor().getRed());
 		assertEquals(20, marcon.getColor().getGreen());
 		assertEquals(54, marcon.getColor().getBlue());
-		assertEquals(3, marcon.getRow());
-		assertEquals(5, marcon.getColumn());
+		assertEquals(20, marcon.getRow());
+		assertEquals(6, marcon.getColumn());
 	}
 }

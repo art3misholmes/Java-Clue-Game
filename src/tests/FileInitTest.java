@@ -67,7 +67,7 @@ public class FileInitTest {
 				}
 			}
 		}
-		assertEquals(doorsCount, 15);
+		assertEquals(16, doorsCount);
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class FileInitTest {
 		assertFalse(cell.isDoorway());
 
 		// room label
-		cell = board.getCell(9, 1);
+		cell = board.getCell(10, 0);
 		room = assertNotNull(board.getRoom(cell));
 		assertEquals("VIP Lounge", room.getName());
 		assertTrue(cell.isLabel());
