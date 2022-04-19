@@ -89,8 +89,9 @@ public class GameControlPanel extends JPanel {
 
 	}
 
-	public void setGuessResult(String result) {
+	public void setGuessResult(String result, Player disprovenBy) {
 		resultField.setText(result);
+		resultField.setBackground(disprovenBy != null ? disprovenBy.getAccentColor() : null);
 	}
 	
 	private void nextButtonClicked(ActionEvent e) {
@@ -111,9 +112,10 @@ public class GameControlPanel extends JPanel {
 		frame.setVisible(true); // make it visible
 
 		// test filling in the data
-		panel.setTurn(new ComputerPlayer("Sample Player", Color.BLUE, 0, 0), 5);
+		var player = new ComputerPlayer("Sample Player", Color.BLUE, 0, 0);
+		panel.setTurn(player, 5);
 		panel.setGuess("I have no guess!");
-		panel.setGuessResult("So you have nothing?");
+		panel.setGuessResult("So you have nothing?", player);
 	}
 	
 

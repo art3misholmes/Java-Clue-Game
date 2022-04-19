@@ -44,6 +44,10 @@ public class Board extends JPanel {
 	 */
 	private CardCollection deck;
 	private Solution solution;
+	/**
+	 * Maps the player cards to the players they represent
+	 */
+	private Map<Card, Player> cardPlayers;
 
 	private HumanPlayer humanPlayer;
 	private ArrayList<ComputerPlayer> computerPlayers;
@@ -256,16 +260,34 @@ public class Board extends JPanel {
 
 	// checks for refutation
 	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer) {
+		// drag the person into the room - person may not exist in a testing environment
+		if (cardPlayers.containsKey(suggestion.person())) {
+			movePlayer(cardPlayers.get(suggestion.person()), suggestingPlayer.getRow(), suggestingPlayer.getColumn());
+		}
+
+		// update UI - controlPanel is null in a testing environment
+		if (controlPanel != null) {
+			controlPanel.setGuess(String.format("%s in %s with %s", suggestion.person().name(),
+					suggestion.room().name(), suggestion.weapon().name()));
+		}
+
+		// figure out who can disprove it
 		var players = allPlayers();
 		var suggestingIndex = players.indexOf(suggestingPlayer);
 		var numPlayers = players.size();
 		for (var i = (suggestingIndex + 1) % numPlayers; i != suggestingIndex; i = (i + 1) % numPlayers) {
 			var cardUsedToDis = players.get(i).disproveSuggestion(suggestion);
 			if (cardUsedToDis != null) {
+				if (controlPanel != null) {
+					controlPanel.setGuessResult("Disproven", players.get(i));
+				}
 				return cardUsedToDis;
 			}
 		}
 
+		if (controlPanel != null) {
+			controlPanel.setGuessResult("Not disproven", null);
+		}
 		return null;
 	}
 
@@ -273,6 +295,7 @@ public class Board extends JPanel {
 	public void loadSetupConfig() throws BadConfigFormatException, FileNotFoundException {
 		rooms = new HashMap<>();
 		deck = new CardCollection();
+		cardPlayers = new HashMap<>();
 		humanPlayer = null;
 		computerPlayers = new ArrayList<>();
 
@@ -324,11 +347,16 @@ public class Board extends JPanel {
 					var row = Integer.parseInt(split[3]);
 					var column = Integer.parseInt(split[4]);
 
-					deck.addCard(new Card(Card.Type.PERSON, name));
+					var card = new Card(Card.Type.PERSON, name);
+					deck.addCard(card);
 					if (humanPlayer == null) {
-						humanPlayer = new HumanPlayer(name, color, row, column);
+						var me = new HumanPlayer(name, color, row, column);
+						humanPlayer = me;
+						cardPlayers.put(card, me);
 					} else {
-						computerPlayers.add(new ComputerPlayer(name, color, row, column));
+						var me = new ComputerPlayer(name, color, row, column);
+						computerPlayers.add(me);
+						cardPlayers.put(card, me);
 					}
 				}
 				case "Weapon" -> {
