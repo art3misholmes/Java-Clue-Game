@@ -117,17 +117,15 @@ public class Board extends JPanel {
 				if (movementTargets.contains(targetCell)) {
 					// move player
 					movePlayer(humanPlayer, targetCell.getRow(), targetCell.getColumn());
+					movementTargets = null;
+					repaint();
 
 					// is new spot room?
 					if(targetCell.isRoom()) {
-						System.out.println("We in a room");
 						new SuggestionModal(cellRooms.get(targetCell).getCard(), deck).setVisible(true);
 					}
 					// hand sugestion
 					// update result
-
-					movementTargets = null;
-					repaint();
 				} else {
 					JOptionPane.showMessageDialog(Board.getInstance(), "Not a valid target.");
 				}
@@ -284,7 +282,13 @@ public class Board extends JPanel {
 			if (cardUsedToDis != null) {
 				suggestingPlayer.updateSeen(cardUsedToDis);
 				if (controlPanel != null) {
-					controlPanel.setGuessResult("Disproven", players.get(i));
+					if (suggestingPlayer == humanPlayer) {
+						controlPanel.setGuessResult(cardUsedToDis.name(), players.get(i));
+						humanPlayer.updatePresentedBy(cardUsedToDis, players.get(i));
+						cardsPanel.update();
+					} else {
+						controlPanel.setGuessResult("Disproven", players.get(i));
+					}
 				}
 				return cardUsedToDis;
 			}
