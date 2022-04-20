@@ -13,6 +13,16 @@ public abstract class Player {
 	private String name;
 	private Color color;
 	private int row, column;
+	private boolean wasDragged;
+
+	// this is the method name Eclipse came up with! 🤷
+	public boolean isWasDragged() {
+		return wasDragged;
+	}
+
+	public void setWasDragged(boolean wasDragged) {
+		this.wasDragged = wasDragged;
+	}
 
 	private CardCollection hand = new CardCollection(), seen = new CardCollection(); //Collection of cards that the player has
 

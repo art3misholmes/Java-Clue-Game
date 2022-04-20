@@ -177,6 +177,11 @@ public class Board extends JPanel {
 			startHumanTurn();
 		}
 	}
+	
+	/**
+	 * Let everyone see all the cards so they can make a correct accusation
+	 */
+	private static final boolean DEBUG_ACCUSATION = false;
 
 	/**
 	 * Randomly distribute the cards between the players and solution
@@ -206,7 +211,16 @@ public class Board extends JPanel {
 			} else {
 				// card was not part of the solution, deal it to a player
 				players.get(dealToNext).updateHand(card);
+				if (DEBUG_ACCUSATION) {
+					// everyone sees everything O_O
+					for (var p : players) {
+						p.updateSeen(card);
+					}
+					humanPlayer.updatePresentedBy(card, players.get(dealToNext));
+				}
 				dealToNext = (dealToNext + 1) % players.size();
+				
+				
 			}
 		}
 
@@ -262,7 +276,9 @@ public class Board extends JPanel {
 	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer) {
 		// drag the person into the room - person may not exist in a testing environment
 		if (cardPlayers.containsKey(suggestion.person())) {
-			movePlayer(cardPlayers.get(suggestion.person()), suggestingPlayer.getRow(), suggestingPlayer.getColumn());
+			var suggestedPlayer = cardPlayers.get(suggestion.person());
+			movePlayer(suggestedPlayer, suggestingPlayer.getRow(), suggestingPlayer.getColumn());
+			suggestedPlayer.setWasDragged(true);
 		}
 
 		// update UI - controlPanel is null in a testing environment
@@ -593,7 +609,7 @@ public class Board extends JPanel {
 			} else {
 				var roll = rand.nextInt(6) + 1;
 				var currentPlayer = computerPlayers.get(currentTurnIndex - 1);
-				
+
 				// maybe make an accusation?
 				if (currentPlayer.getPendingAccusation() != null) {
 					// if the computer player has a pending accusation, it is the solution
@@ -601,22 +617,29 @@ public class Board extends JPanel {
 					if (!checkAccusation(currentPlayer.getPendingAccusation())) {
 						throw new RuntimeException("The computer was wrong aaaa");
 					}
-					
+
 					JOptionPane.showMessageDialog(this, "The computer has won, it was " + solution.toString());
-					
+
 					System.exit(0);
 				}
-				
+
 				// move
 				var targets = getTargets(getCell(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
-				var targetCell = currentPlayer.selectTarget(targets, cellRooms);
-				movePlayer(currentPlayer, targetCell.getRow(), targetCell.getColumn());
-				
+				if (currentPlayer.isWasDragged()) {
+					currentPlayer.setWasDragged(false);
+					targets.add(getCell(currentPlayer.getRow(), currentPlayer.getColumn()));
+				}
+				if (!targets.isEmpty()) {
+					var targetCell = currentPlayer.selectTarget(targets, cellRooms);
+					movePlayer(currentPlayer, targetCell.getRow(), targetCell.getColumn());
+				}
+
 				// maybe make a suggestion?
-				var compRoom = getCell(currentPlayer.getRow(),currentPlayer.getColumn()).isRoom();
-				if(compRoom) {
-					//make suggestion
-					var compSugest = currentPlayer.createSuggestion(deck,cellRooms.get(getCell(currentPlayer.getRow(),currentPlayer.getColumn())).getCard());
+				var compRoom = getCell(currentPlayer.getRow(), currentPlayer.getColumn()).isRoom();
+				if (compRoom) {
+					// make suggestion
+					var compSugest = currentPlayer.createSuggestion(deck,
+							cellRooms.get(getCell(currentPlayer.getRow(), currentPlayer.getColumn())).getCard());
 					var disproven = handleSuggestion(compSugest, currentPlayer);
 					if (disproven == null && !currentPlayer.getHand().contains(compSugest.room())) {
 						// we did it bois
@@ -635,6 +658,10 @@ public class Board extends JPanel {
 	private void startHumanTurn() {
 		var roll = rand.nextInt(6) + 1;
 		movementTargets = getTargets(getCell(humanPlayer.getRow(), humanPlayer.getColumn()), roll);
+		if (humanPlayer.isWasDragged()) {
+			humanPlayer.setWasDragged(false);
+			movementTargets.add(getCell(humanPlayer.getRow(), humanPlayer.getColumn()));
+		}
 		if (movementTargets.isEmpty()) {
 			movementTargets = null;
 		}
