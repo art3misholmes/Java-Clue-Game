@@ -8,6 +8,15 @@ import java.util.Random;
 import java.util.Set;
 
 public class ComputerPlayer extends Player {
+	private Solution pendingAccusation;
+
+	public Solution getPendingAccusation() {
+		return pendingAccusation;
+	}
+
+	public void setPendingAccusation(Solution pendingAccusation) {
+		this.pendingAccusation = pendingAccusation;
+	}
 
 	public ComputerPlayer(String name, Color color, int row, int column) {
 		super(name, color, row, column);
@@ -57,7 +66,7 @@ public class ComputerPlayer extends Player {
 		// priority targets
 		if(priorityTargets.size() != 0) {
 			return RandomChooser.pickRandom(priorityTargets);
-		}else {
+		} else {
 			return RandomChooser.pickRandom(otherTargets);
 		}
 	}

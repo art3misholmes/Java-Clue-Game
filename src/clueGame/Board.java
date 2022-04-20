@@ -267,8 +267,7 @@ public class Board extends JPanel {
 
 		// update UI - controlPanel is null in a testing environment
 		if (controlPanel != null) {
-			controlPanel.setGuess(String.format("%s in %s with %s", suggestion.person().name(),
-					suggestion.room().name(), suggestion.weapon().name()));
+			controlPanel.setGuess(suggestion.toString());
 		}
 
 		// figure out who can disprove it
@@ -595,19 +594,34 @@ public class Board extends JPanel {
 				var roll = rand.nextInt(6) + 1;
 				var currentPlayer = computerPlayers.get(currentTurnIndex - 1);
 				
-				// TODO maybe make an accusation
+				// maybe make an accusation?
+				if (currentPlayer.getPendingAccusation() != null) {
+					// if the computer player has a pending accusation, it is the solution
+					// might as well check though
+					if (!checkAccusation(currentPlayer.getPendingAccusation())) {
+						throw new RuntimeException("The computer was wrong aaaa");
+					}
+					
+					JOptionPane.showMessageDialog(this, "The computer has won, it was " + solution.toString());
+					
+					System.exit(0);
+				}
+				
+				// move
 				var targets = getTargets(getCell(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
 				var targetCell = currentPlayer.selectTarget(targets, cellRooms);
 				movePlayer(currentPlayer, targetCell.getRow(), targetCell.getColumn());
 				
-				// TODO maybe make a suggestion after moving
+				// maybe make a suggestion?
 				var compRoom = getCell(currentPlayer.getRow(),currentPlayer.getColumn()).isRoom();
-				
 				if(compRoom) {
 					//make suggestion
 					var compSugest = currentPlayer.createSuggestion(deck,cellRooms.get(getCell(currentPlayer.getRow(),currentPlayer.getColumn())).getCard());
-					var compHand = handleSuggestion(compSugest, currentPlayer);
-					
+					var disproven = handleSuggestion(compSugest, currentPlayer);
+					if (disproven == null && !currentPlayer.getHand().contains(compSugest.room())) {
+						// we did it bois
+						currentPlayer.setPendingAccusation(compSugest);
+					}
 				}
 				controlPanel.setTurn(currentPlayer, roll);
 			}
