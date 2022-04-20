@@ -278,6 +278,7 @@ public class Board extends JPanel {
 		for (var i = (suggestingIndex + 1) % numPlayers; i != suggestingIndex; i = (i + 1) % numPlayers) {
 			var cardUsedToDis = players.get(i).disproveSuggestion(suggestion);
 			if (cardUsedToDis != null) {
+				suggestingPlayer.updateSeen(cardUsedToDis);
 				if (controlPanel != null) {
 					controlPanel.setGuessResult("Disproven", players.get(i));
 				}
@@ -593,11 +594,21 @@ public class Board extends JPanel {
 			} else {
 				var roll = rand.nextInt(6) + 1;
 				var currentPlayer = computerPlayers.get(currentTurnIndex - 1);
+				
 				// TODO maybe make an accusation
 				var targets = getTargets(getCell(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
 				var targetCell = currentPlayer.selectTarget(targets, cellRooms);
 				movePlayer(currentPlayer, targetCell.getRow(), targetCell.getColumn());
+				
 				// TODO maybe make a suggestion after moving
+				var compRoom = getCell(currentPlayer.getRow(),currentPlayer.getColumn()).isRoom();
+				
+				if(compRoom) {
+					//make suggestion
+					var compSugest = currentPlayer.createSuggestion(deck,cellRooms.get(getCell(currentPlayer.getRow(),currentPlayer.getColumn())).getCard());
+					var compHand = handleSuggestion(compSugest, currentPlayer);
+					
+				}
 				controlPanel.setTurn(currentPlayer, roll);
 			}
 			repaint();
