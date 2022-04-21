@@ -121,7 +121,7 @@ public class Board extends JPanel {
 					repaint();
 
 					// is new spot room?
-					if(targetCell.isRoom()) {
+					if (targetCell.isRoom()) {
 						new SuggestionModal(cellRooms.get(targetCell).getCard(), deck).setVisible(true);
 					}
 					// hand sugestion
@@ -264,7 +264,11 @@ public class Board extends JPanel {
 	public Card handleSuggestion(Solution suggestion, Player suggestingPlayer) {
 		// drag the person into the room - person may not exist in a testing environment
 		if (cardPlayers.containsKey(suggestion.person())) {
-			movePlayer(cardPlayers.get(suggestion.person()), suggestingPlayer.getRow(), suggestingPlayer.getColumn());
+			var draggee = cardPlayers.get(suggestion.person());
+			if (draggee != suggestingPlayer) { // the instructors' version doesn't seem to have this check. you can keep dragging yourself into a room and sit there forever.
+				movePlayer(draggee, suggestingPlayer.getRow(), suggestingPlayer.getColumn());
+				draggee.setWasDragged(true);
+			}
 		}
 
 		// update UI - controlPanel is null in a testing environment
@@ -605,15 +609,20 @@ public class Board extends JPanel {
 
 				// TODO maybe make an accusation
 				var targets = getTargets(getCell(currentPlayer.getRow(), currentPlayer.getColumn()), roll);
+				if (currentPlayer.isWasDragged()) {
+					currentPlayer.setWasDragged(false);
+					targets.add(getCell(currentPlayer.getRow(), currentPlayer.getColumn()));
+				}
 				var targetCell = currentPlayer.selectTarget(targets, cellRooms);
 				movePlayer(currentPlayer, targetCell.getRow(), targetCell.getColumn());
 
 				// TODO maybe make a suggestion after moving
-				var compRoom = getCell(currentPlayer.getRow(),currentPlayer.getColumn()).isRoom();
+				var compRoom = getCell(currentPlayer.getRow(), currentPlayer.getColumn()).isRoom();
 
-				if(compRoom) {
-					//make suggestion  
-					var compSugest = currentPlayer.createSuggestion(deck,cellRooms.get(getCell(currentPlayer.getRow(),currentPlayer.getColumn())).getCard());
+				if (compRoom) {
+					// make suggestion
+					var compSugest = currentPlayer.createSuggestion(deck,
+							cellRooms.get(getCell(currentPlayer.getRow(), currentPlayer.getColumn())).getCard());
 					var compHand = handleSuggestion(compSugest, currentPlayer);
 
 				}
@@ -629,6 +638,10 @@ public class Board extends JPanel {
 	private void startHumanTurn() {
 		var roll = rand.nextInt(6) + 1;
 		movementTargets = getTargets(getCell(humanPlayer.getRow(), humanPlayer.getColumn()), roll);
+		if (humanPlayer.isWasDragged()) {
+			humanPlayer.setWasDragged(false);
+			movementTargets.add(getCell(humanPlayer.getRow(), humanPlayer.getColumn()));
+		}
 		if (movementTargets.isEmpty()) {
 			movementTargets = null;
 		}
@@ -640,6 +653,7 @@ public class Board extends JPanel {
 		p.setRow(newRow);
 		p.setColumn(newColumn);
 		getCell(newRow, newColumn).setOccupied(true);
+		repaint();
 	}
 
 	// getters

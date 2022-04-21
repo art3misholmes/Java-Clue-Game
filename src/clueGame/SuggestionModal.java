@@ -22,7 +22,8 @@ public class SuggestionModal extends JDialog {
 	private final JComboBox<String> personCombo, weaponCombo;
 
 	public SuggestionModal(Card currentRoom, CardCollection deck) {
-		super(JOptionPane.getRootFrame(), "Suggestion", true);
+		super(JOptionPane.getFrameForComponent(Board.getInstance()), "Suggestion", true);
+		setLocationRelativeTo(Board.getInstance());
 
 		this.currentRoom = currentRoom;
 
