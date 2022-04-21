@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class SuggestionModal extends JDialog {
+	private static final long serialVersionUID = 1L; // bluh
 
 	private final Card currentRoom;
 	private final JComboBox<String> personCombo, weaponCombo;

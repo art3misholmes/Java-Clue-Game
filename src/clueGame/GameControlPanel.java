@@ -51,6 +51,7 @@ public class GameControlPanel extends JPanel {
 		// accusation button
 		var accusationButton = new JButton("Make Accusation");
 		topRow.add(accusationButton);
+		accusationButton.addActionListener(this::accusationButtonClicked);
 
 		// next button
 		var nextButton = new JButton("NEXT!");
@@ -92,6 +93,10 @@ public class GameControlPanel extends JPanel {
 	public void setGuessResult(String result, Player disprovenBy) {
 		resultField.setText(result);
 		resultField.setBackground(disprovenBy != null ? disprovenBy.getAccentColor() : null);
+	}
+	
+	private void accusationButtonClicked(ActionEvent e) {
+		Board.getInstance().accusationButtonClicked();
 	}
 	
 	private void nextButtonClicked(ActionEvent e) {

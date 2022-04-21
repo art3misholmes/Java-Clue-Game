@@ -179,6 +179,9 @@ public class Board extends JPanel {
 			startHumanTurn();
 		}
 	}
+	
+	// for testing accusations
+	private static final boolean DEBUG_EVERYONE_SEES_EVERYONES_HAND = false;
 
 	/**
 	 * Randomly distribute the cards between the players and solution
@@ -208,6 +211,12 @@ public class Board extends JPanel {
 			} else {
 				// card was not part of the solution, deal it to a player
 				players.get(dealToNext).updateHand(card);
+				if (DEBUG_EVERYONE_SEES_EVERYONES_HAND) {
+					for (var p : players) {
+						p.updateSeen(card);
+					}
+					humanPlayer.updatePresentedBy(card, players.get(dealToNext));
+				}
 				dealToNext = (dealToNext + 1) % players.size();
 			}
 		}
@@ -710,5 +719,18 @@ public class Board extends JPanel {
 	public void setConfigFiles(String layout, String setup) {
 		layoutFile = "data/" + layout;
 		setupFile = "data/" + setup;
+	}
+
+	public void handleHumanAccusation(Solution accusation) {
+		if (checkAccusation(accusation)) {
+			JOptionPane.showMessageDialog(this, "You did it! Congratulations");
+		} else {
+			JOptionPane.showMessageDialog(this, "Nope! It was " + solution);
+		}
+		System.exit(0);
+	}
+
+	public void accusationButtonClicked() {
+		new AccusationModal(deck).setVisible(true);		
 	}
 }
