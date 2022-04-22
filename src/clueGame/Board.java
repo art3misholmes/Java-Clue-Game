@@ -731,6 +731,10 @@ public class Board extends JPanel {
 	}
 
 	public void accusationButtonClicked() {
-		new AccusationModal(deck).setVisible(true);		
+		if (movementTargets != null) {
+			new AccusationModal(deck).setVisible(true);
+		} else {
+			JOptionPane.showMessageDialog(this, "Wait for your turn");
+		}
 	}
 }
