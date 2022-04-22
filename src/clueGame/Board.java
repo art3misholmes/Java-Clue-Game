@@ -322,7 +322,7 @@ public class Board extends JPanel {
 		computerPlayers = new ArrayList<>();
 
 		var lineNumber = 0;
-		try (var scanner = new Scanner(new FileInputStream(setupFile))) {
+		try (var scanner = new Scanner(/*new FileInputStream(setupFile)*/ getClass().getResourceAsStream(setupFile))) {
 			while (scanner.hasNextLine()) {
 				var line = scanner.nextLine();
 				lineNumber++;
@@ -400,7 +400,7 @@ public class Board extends JPanel {
 		grid = new ArrayList<>();
 		cellRooms = new HashMap<>();
 
-		try (var scanner = new Scanner(new FileInputStream(layoutFile))) {
+		try (var scanner = new Scanner(/*new FileInputStream(layoutFile)*/ getClass().getResourceAsStream(layoutFile))) {
 			while (scanner.hasNextLine()) {
 				line = scanner.nextLine();
 
