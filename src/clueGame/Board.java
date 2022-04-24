@@ -2,10 +2,12 @@ package clueGame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,6 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -86,8 +89,14 @@ public class Board extends JPanel {
 
 	private static Board instance = new Board(); // singleton
 
+	private Image grass;
 	// part of singleton
 	private Board() {
+		try {
+			grass = ImageIO.read(getClass().getResource("data/space.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		addMouseListener(new BoardMouseListener());
 	}
 
@@ -563,8 +572,13 @@ public class Board extends JPanel {
 		super.paintComponent(g);
 
 		// clear the screen
-		g.setColor(new Color(10, 172, 58));
-		g.fillRect(0, 0, getWidth(), getHeight());
+		if(grass != null) {
+			g.drawImage(grass, 0, 0, getWidth(), getHeight(), null);
+			
+		}else {
+			g.setColor(new Color(10, 172, 58));
+			g.fillRect(0, 0, getWidth(), getHeight());
+		}
 
 		// pack up everything we've calculated to pass into drawing methods
 		var metrics = CellMetrics.calculateMetrics(getWidth(), getHeight(), rows, cols);

@@ -24,7 +24,7 @@ public class BoardCell {
 
 	private static final int DOOR_THICKNESS = 4;
 	
-	private static final Color WALKWAY_COLOR = Color.LIGHT_GRAY;
+	private static final Color WALKWAY_COLOR = new Color(186, 243, 192);
 	private static final Color ROOM_COLOR = Color.DARK_GRAY;
 	private static final Color DOOR_COLOR = Color.WHITE;
 	private static final Color TARGET_COLOR = Color.CYAN;
